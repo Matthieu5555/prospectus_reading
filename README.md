@@ -63,33 +63,56 @@ Here's what happens when you run an extraction:
 
 **Phase 1-3: Understanding the document.** The pipeline first builds a mental model of the PDF.
 
-- **Skeleton** detects the table of contents and document structure. It uses PyMuPDF's native TOC extraction when available, falling back to regex-based heading detection. The output is a hierarchical section tree with page ranges.
+- **Skeleton** detects the table of contents and document structure. It uses PyMuPDF's native TOC extraction when available, falling back to regex-based heading detection. The output is a hierarchical section tree with page ranges. *Limitation: relies on PDF having embedded TOC metadata. If the PDF was created without bookmarks (common with scanned documents or poorly-generated PDFs), the fallback regex detection is much less reliable and may miss sections entirely.*
 
-- **TableScan** finds data tables (fee tables, ISIN listings). It scans every page for HTML table structures using PyMuPDF's table detection, extracts column headers and row data, then classifies tables by content (ISIN table if it contains ISIN patterns, fee table if it contains fee keywords). These pre-parsed tables become "ground truth" for later extraction.
+- **TableScan** finds data tables (fee tables, ISIN listings). It scans every page for HTML table structures using PyMuPDF's table detection, extracts column headers and row data, then classifies tables by content (ISIN table if it contains ISIN patterns, fee table if it contains fee keywords). These pre-parsed tables become "ground truth" for later extraction. *Limitation: depends on tables being actual HTML/PDF table structures. Tables created as plain text with spacing, or tables embedded as images, will not be detected.*
 
-- **ExternalRefScan** identifies references to documents that aren't the prospectus itself (KIIDs, annual reports). Currently this is a simple regex scan looking for patterns like "ISIN: See KIID" or "refer to Annual Report". This matters because the system needs to know when a value simply doesn't exist in this document. *Note: this phase is basic regex matching and could be improved with LLM-based detection for more nuanced references.*
+- **ExternalRefScan** identifies when field values aren't in the prospectus but live in external documents (KIIDs, annual reports). It uses two detection methods: (1) table cell detection, which checks pre-scanned tables for cells containing "See KIID" instead of actual values (very accurate since table structure is unambiguous), and (2) proximity-based text matching, which finds sentences where a field keyword, referral phrase, and external document name appear together (e.g., "ISIN codes can be found in the KIID"). This matters because the system needs to know when a value simply doesn't exist in this document, preventing wasted LLM calls. *Limitation: only catches explicit references with known keywords. Subtle references like "ISIN codes are published separately" without naming the document may be missed.*
 
 **Phase 4-5: Figuring out what's in there.**
 
-- **Exploration** sends LLM agents to scan the document in parallel chunks (30 pages at a time by default). Each agent reads its chunk and outputs structured notes: which funds are mentioned, on which pages, what relationships exist between them (e.g., "Fund X has share classes A, B, C"), and any notable patterns. The agents don't extract values yet, they just map the territory.
+- **Exploration** sends LLM agents to scan the document in parallel chunks (30 pages at a time by default). Each agent reads its chunk and outputs structured notes: which funds are mentioned, on which pages, what relationships exist between them (e.g., "Fund X has share classes A, B, C"), and any notable patterns. The agents don't extract values yet, they just map the territory. *Limitation: if a fund is mentioned only once in passing or with an unusual name variant, it may be missed. Chunk boundaries can also split fund descriptions awkwardly.*
 
-- **EntityResolution** deduplicates fund mentions across chunks. It uses fuzzy string matching (SequenceMatcher) to identify when "JPMorgan Global Bond Fund" and "Global Bond Fund" refer to the same entity. The output is a canonical fund list with aliases, preventing duplicate extraction work.
+- **EntityResolution** deduplicates fund mentions across chunks. It uses fuzzy string matching (SequenceMatcher) to identify when "JPMorgan Global Bond Fund" and "Global Bond Fund" refer to the same entity. The output is a canonical fund list with aliases, preventing duplicate extraction work. *Limitation: fuzzy matching can both under-merge (miss that "Global Bond" and "JPM Global Bond Fund" are the same) and over-merge (incorrectly merge "Global Bond Fund" and "Global Equity Fund" if threshold is too loose).*
 
 **Phase 6-7: Planning the work.**
 
-- **Logic** aggregates patterns without calling any LLM (pure Python). It analyzes exploration notes to determine: which funds share pages (suggesting umbrella-level content), which tables are "broadcast" tables that apply to all funds (vs. fund-specific tables), and what the document's structural logic is. This is rule-based pattern detection, not AI.
+- **Logic** aggregates patterns without calling any LLM (pure Python). It analyzes exploration notes to determine: which funds share pages (suggesting umbrella-level content), which tables are "broadcast" tables that apply to all funds (vs. fund-specific tables), and what the document's structural logic is. This is rule-based pattern detection, not AI. *Limitation: heuristics assume common prospectus layouts. Unusual document structures (e.g., funds organized by share class rather than by fund) may confuse the logic.*
 
-- **Planning** takes the Logic output and creates an extraction recipe for each fund. The LLM planner decides: which pages to read for each fund, which fields to extract from text vs. look up in tables, and what the extraction priority order should be. The output is a per-fund work plan.
+- **Planning** takes the Logic output and creates an extraction recipe for each fund. The LLM planner decides: which pages to read for each fund, which fields to extract from text vs. look up in tables, and what the extraction priority order should be. The output is a per-fund work plan. *Limitation: planner quality depends heavily on exploration quality. If exploration missed pages or misidentified fund boundaries, the plan will be wrong.*
 
 **Phase 8-9: Doing the extraction.**
 
-- **Extraction** executes the plan. For each fund, it reads the assigned pages and calls reader agents to pull actual values (ISINs, fees, constraints, objectives). Table fields are looked up directly from pre-parsed tables (no LLM needed). Text fields go through LLM extraction with provenance tracking (source page, exact quote, confidence score). If gleaning is enabled (`-g 2+`), the agent re-reads pages looking for missed values.
+- **Extraction** executes the plan. For each fund, it reads the assigned pages and calls reader agents to pull actual values (ISINs, fees, constraints, objectives). Table fields are looked up directly from pre-parsed tables (no LLM needed). Text fields go through LLM extraction with provenance tracking (source page, exact quote, confidence score). If gleaning is enabled (`-g 2+`), the agent re-reads pages looking for missed values. *Limitation: LLM extraction can hallucinate values that look plausible but don't exist in the source. Table lookups require exact column header matching, which fails if headers are non-standard.*
 
-- **Assembly** ties everything into the final hierarchical graph. It converts raw extraction dicts into typed Pydantic models (Umbrella → SubFund → ShareClass), runs gap-filling for umbrella-level fields that apply to all funds, inherits values where appropriate, and computes quality metrics (confidence distribution, coverage stats, unresolved questions).
+- **Assembly** ties everything into the final hierarchical graph. It converts raw extraction dicts into typed Pydantic models (Umbrella → SubFund → ShareClass), runs gap-filling for umbrella-level fields that apply to all funds, inherits values where appropriate, and computes quality metrics (confidence distribution, coverage stats, unresolved questions). *Limitation: inheritance logic assumes standard umbrella/subfund/shareclass hierarchy. Non-standard structures (e.g., multiple umbrellas in one prospectus) may cause incorrect inheritance.*
 
 There's also an optional **FailureRecovery** phase that retries failed extractions with broader search strategies (more pages, different search patterns), and the **Critic** agent (enabled with `--critic`) that independently verifies extracted values and assigns confidence scores. The critic receives parsed tables as authoritative ground truth, so if LLM extraction differs from table data, the table wins.
 
 If that sounds like a lot, the key insight is simple: the pipeline mimics how a human analyst would work. You'd skim the table of contents, note which pages cover which funds, plan your reading, then systematically extract data. The system does the same thing, just in parallel and with structured outputs.
+
+## Known limitations
+
+The pipeline works well on standard UCITS prospectuses but has known weaknesses:
+
+**PDF quality dependencies:**
+- **TOC metadata required**: Skeleton phase relies on embedded PDF bookmarks. PDFs without TOC metadata (scanned documents, poorly-generated exports) fall back to regex heading detection, which is unreliable.
+- **Real table structures required**: TableScan only detects actual PDF table objects. Tables created as formatted text, or tables embedded as images, will not be parsed.
+- **Text extraction quality**: PyMuPDF text extraction can struggle with multi-column layouts, unusual fonts, or PDFs with complex formatting.
+
+**Structural assumptions:**
+- **Standard hierarchy expected**: The pipeline assumes umbrella → subfund → share class structure. Non-standard structures (multiple umbrellas, funds without share classes) may cause incorrect data inheritance.
+- **One prospectus per PDF**: Multiple prospectuses in a single PDF are not supported.
+- **European/UCITS focus**: Field schemas and search patterns are tuned for UCITS prospectuses. US mutual fund prospectuses have different terminology and structure.
+
+**Detection gaps:**
+- **Subtle external references**: ExternalRefScan catches explicit "See KIID" patterns but misses subtle references like "published separately" without naming the document.
+- **Fund name variations**: EntityResolution fuzzy matching can miss unusual name variants or incorrectly merge similarly-named but distinct funds.
+- **LLM hallucinations**: Despite critic verification, LLMs can confidently fabricate plausible-looking values. Always spot-check high-stakes extractions.
+
+**Performance considerations:**
+- **Large documents**: Documents over 500 pages may hit token limits or memory constraints.
+- **API rate limits**: High concurrency with cheap models may trigger rate limiting.
 
 ## Project structure
 
