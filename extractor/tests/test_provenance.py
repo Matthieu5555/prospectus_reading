@@ -178,28 +178,6 @@ class TestExtractedValueProperties:
 
 
 # =============================================================================
-# NotFoundReason tests
-# =============================================================================
-
-
-class TestNotFoundReason:
-    """Tests for NotFoundReason enum."""
-
-    def test_all_reasons_exist(self):
-        """All expected NOT_FOUND reasons exist."""
-        assert NotFoundReason.NOT_IN_DOCUMENT
-        assert NotFoundReason.NOT_APPLICABLE
-        assert NotFoundReason.IN_EXTERNAL_DOC
-        assert NotFoundReason.INHERITED
-        assert NotFoundReason.EXTRACTION_FAILED
-
-    def test_reasons_are_strings(self):
-        """Reasons serialize to strings."""
-        assert NotFoundReason.NOT_IN_DOCUMENT.value == "not_in_document"
-        assert NotFoundReason.EXTRACTION_FAILED.value == "extraction_failed"
-
-
-# =============================================================================
 # Serialization tests
 # =============================================================================
 

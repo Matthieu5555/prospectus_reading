@@ -1,0 +1,568 @@
+2026-01-28 16:41:05.018 [INFO] [16:41:05] Starting pipeline: jpm_umbrella.pdf
+2026-01-28 16:41:05.018 [INFO] 
+2026-01-28 16:41:05.018 [INFO] SKELETON (1 items)
+2026-01-28 16:41:05.019 [INFO]   [Skeleton] Found native TOC with 66 entries
+2026-01-28 16:41:05.019 [INFO]   [Skeleton] Built skeleton with 66 sections
+2026-01-28 16:41:05.019 [INFO]   Done: 66 sections from native TOC | [0.0s]
+2026-01-28 16:41:05.019 [INFO] 
+2026-01-28 16:41:05.019 [INFO] TABLESCAN (261 items)
+2026-01-28 16:41:05.031 [DEBU] [16:41:05] [1/261] (0%) page 1
+2026-01-28 16:41:12.682 [DEBU] [16:41:12] [51/261] (20%) page 51
+2026-01-28 16:41:19.697 [DEBU] [16:41:19] [101/261] (39%) page 101
+2026-01-28 16:41:25.828 [DEBU] [16:41:25] [151/261] (58%) page 151
+2026-01-28 16:41:32.241 [DEBU] [16:41:32] [201/261] (77%) page 201
+2026-01-28 16:41:39.260 [DEBU] [16:41:39] [251/261] (96%) page 251
+2026-01-28 16:41:40.771 [INFO]   [TableScan] Found 85 tables on 261 pages
+2026-01-28 16:41:40.771 [INFO]   [ExternalRefScan] Scanning 261 pages for external references
+2026-01-28 16:41:40.778 [INFO]   [ExternalRefScan] Text proximity: isin -> KIID (page 3)
+2026-01-28 16:41:40.827 [INFO]   [ExternalRefScan] Detected 1 external field(s): ['isin']
+2026-01-28 16:41:40.828 [INFO]   [ExternalRefScan]   Table detection: 0, Text proximity: 1
+2026-01-28 16:41:40.828 [INFO]   Done: 1 refs, 1 fields external | [35.8s]
+2026-01-28 16:41:40.828 [INFO]   [Exploration] Native TOC: 66 entries (used for cross-ref context)
+2026-01-28 16:41:40.828 [INFO]   [Exploration] Adaptive chunking: reduced from 30 to 20 pages for 261-page document
+2026-01-28 16:41:40.828 [INFO]   [Exploration] Exploring 261 pages in 14 chunks of 20 pages
+2026-01-28 16:41:40.828 [INFO] 
+2026-01-28 16:41:40.828 [INFO] EXPLORATION (14 items, gpt-4o)
+2026-01-28 16:42:26.402 [INFO]   [1/14] pages 41-60 (45.6s)
+2026-01-28 16:42:34.540 [INFO]   [2/14] pages 21-40 (53.7s)
+2026-01-28 16:42:34.948 [INFO]   [3/14] pages 81-100 (54.1s)
+2026-01-28 16:42:48.933 [INFO]   [4/14] pages 1-20 (68.1s)
+2026-01-28 16:43:00.759 [INFO]   [5/14] pages 61-80 (79.9s)
+2026-01-28 16:43:03.352 [INFO]   [6/14] pages 101-120 (82.5s)
+2026-01-28 16:43:12.919 [INFO]   [7/14] pages 141-160 (92.1s)
+2026-01-28 16:43:17.379 [INFO]   [8/14] pages 121-140 (96.6s)
+2026-01-28 16:43:28.934 [INFO]   [9/14] pages 161-180 (108.1s)
+2026-01-28 16:43:32.166 [INFO]   [10/14] pages 261-261 (111.3s)
+2026-01-28 16:43:41.046 [INFO]   [11/14] pages 181-200 (120.2s)
+2026-01-28 16:43:43.480 [INFO]   [12/14] pages 201-220 (122.7s)
+2026-01-28 16:43:46.010 [INFO]   [13/14] pages 221-240 (125.2s)
+2026-01-28 16:44:01.267 [INFO]   [14/14] pages 241-260 (140.4s)
+2026-01-28 16:44:01.270 [INFO]   [Exploration] Cross-references: resolved 5/13 internal refs
+2026-01-28 16:44:01.272 [INFO]   [Exploration] Knowledge graph populated: 198 findings, 54 external refs, inventory: 34 present, 11 external
+2026-01-28 16:44:01.272 [INFO]   [Exploration] KG-RAG graph: 139 entities, 131 relations
+2026-01-28 16:44:01.272 [INFO]   Done: 14 explorers completed | funds_found=82, tables_found=80, failed=0, toc_source=native | [140.4s]
+2026-01-28 16:44:01.272 [INFO] 
+2026-01-28 16:44:01.273 [INFO] ENTITYRESOLUTION (1 items, gpt-4o-mini)
+2026-01-28 16:44:01.273 [INFO]   [EntityResolution] Extracted 82 fund mentions from exploration
+2026-01-28 16:44:01.273 [INFO]   [EntityResolution] Using 23 canonical funds from TOC (authoritative)
+2026-01-28 16:44:01.275 [DEBU] [16:44:01] [EntityResolution] Unmatched exploration mentions (not in TOC): ['JPMORGAN INVESTMENT FUNDS - GLOBAL MULTI-ASSET GROWTH SUSTAINABLE FUND']
+2026-01-28 16:44:01.276 [INFO]   [EntityResolution] Formed 23 clusters from 82 mentions
+2026-01-28 16:44:01.295 [DEBU] Entity merged: 'US Select Equity Fund' → 'Europe Select Equity Fund'
+2026-01-28 16:44:01.296 [DEBU] Entity merged: 'Dynamic Multi-Asset Fund' → 'Dynamic Multi-Asset Fund'
+2026-01-28 16:44:01.298 [DEBU] Entity merged: 'Global Balanced Fund' → 'Global Balanced Fund'
+2026-01-28 16:44:01.299 [DEBU] Entity merged: 'Global Income Fund' → 'Global Income Fund'
+2026-01-28 16:44:01.301 [DEBU] Entity merged: 'Global Income Conservative Fund' → 'Global Income Conservative Fund'
+2026-01-28 16:44:01.303 [DEBU] Entity merged: 'Global Income ESG Fund' → 'Global Income ESG Fund'
+2026-01-28 16:44:01.304 [DEBU] Entity merged: 'Global Macro Fund' → 'Global Macro Fund'
+2026-01-28 16:44:01.307 [DEBU] Entity merged: 'Global Macro Opportunities Fund' → 'Global Macro Opportunities Fund'
+2026-01-28 16:44:01.309 [DEBU] Entity merged: 'Global Macro Sustainable Fund' → 'Global Macro Sustainable Fund'
+2026-01-28 16:44:01.311 [DEBU] Entity merged: 'US Multi-Asset High Income Fund' → 'US Multi-Asset High Income Fund'
+2026-01-28 16:44:01.313 [DEBU] Entity merged: 'Global Convertibles Conservative Fund' → 'Global Convertibles Conservative Fund'
+2026-01-28 16:44:01.317 [DEBU] Entity merged: 'Global Short Duration Corporate Bond Sustainable Fund' → 'Global Short Duration Corporate Bond Sustainable Fund'
+2026-01-28 16:44:01.318 [DEBU] Entity merged: 'Global High Yield Bond Fund' → 'Global High Yield Bond Fund'
+2026-01-28 16:44:01.320 [DEBU] Entity merged: 'Income Opportunity Fund' → 'Income Opportunity Fund'
+2026-01-28 16:44:01.321 [DEBU] Entity merged: 'US Bond Fund' → 'US Bond Fund'
+2026-01-28 16:44:01.324 [DEBU] Entity merged: 'Coutts Diversifying Alternatives Multi-Manager Fund' → 'Coutts Diversifying Alternatives Multi-Manager Fund'
+2026-01-28 16:44:01.324 [INFO]   Done: 23 canonical funds | mentions=82, clusters=23, merged=44, filtered=0 | [0.1s]
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 1: Europe Select Equity Fund (conf: 1.00) (variants: ['Europe Select Equity Fund', 'JPMorgan Investment Funds - Europe Select Equity Fund', 'JPMORGAN INVESTMENT FUNDS - EUROPE SELECT EQUITY FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 2: Europe Strategic Dividend Fund (conf: 1.00) (variants: ['Europe Strategic Dividend Fund', 'JPMorgan Investment Funds - Europe Strategic Dividend Fund', 'JPMORGAN INVESTMENT FUNDS - EUROPE STRATEGIC DIVIDEND FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 3: Global Core Equity Fund (conf: 1.00) (variants: ['Global Core Equity Fund', 'JPMorgan Investment Funds - Global Core Equity Fund', 'JPMORGAN INVESTMENT FUNDS - GLOBAL CORE EQUITY FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 4: Global Dividend Fund (conf: 1.00) (variants: ['Global Dividend Fund', 'JPMorgan Investment Funds - Global Dividend Fund', 'JPMORGAN INVESTMENT FUNDS - GLOBAL DIVIDEND FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 5: Global Select Equity Fund (conf: 1.00) (variants: ['Global Select Equity Fund', 'JPMorgan Investment Funds - Global Select Equity Fund', 'JPMORGAN INVESTMENT FUNDS - GLOBAL SELECT EQUITY FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 6: Japan Sustainable Equity Fund (conf: 1.00) (variants: ['Japan Sustainable Equity Fund', 'JPMorgan Investment Funds - Japan Sustainable Equity Fund', 'JPMORGAN INVESTMENT FUNDS - JAPAN SUSTAINABLE EQUITY FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 7: Japan Strategic Value Fund (conf: 1.00) (variants: ['Japan Strategic Value Fund', 'JPMorgan Investment Funds - Japan Strategic Value Fund', 'JPMORGAN INVESTMENT FUNDS - JAPAN STRATEGIC VALUE FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 8: US Select Equity Fund (conf: 1.00) (variants: ['US Select Equity Fund', 'JPMorgan Investment Funds - US Select Equity Fund', 'JPMORGAN INVESTMENT FUNDS - US SELECT EQUITY FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 9: Dynamic Multi-Asset Fund (conf: 1.00) (variants: ['Dynamic Multi-Asset Fund', 'JPMorgan Investment Funds - Dynamic Multi-Asset Fund', 'JPMORGAN INVESTMENT FUNDS - DYNAMIC MULTI-ASSET FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   Fund 10: Global Balanced Fund (conf: 1.00) (variants: ['Global Balanced Fund', 'JPMorgan Investment Funds - Global Balanced Fund', 'JPMORGAN INVESTMENT FUNDS - GLOBAL BALANCED FUND'])
+2026-01-28 16:44:01.324 [INFO]   [EntityResolution]   ... and 13 more funds
+2026-01-28 16:44:01.324 [INFO] 
+2026-01-28 16:44:01.324 [INFO] LOGIC (1 items, aggregation (no LLM))
+2026-01-28 16:44:01.324 [INFO]   [Logic] Aggregating 14 exploration reports (no LLM call)
+2026-01-28 16:44:01.324 [INFO]   [Logic] ISIN strategy: external
+2026-01-28 16:44:01.324 [INFO]   [Logic] Fee strategy: consolidated_table
+2026-01-28 16:44:01.324 [INFO]   [Logic] Note: ISINs are documented in KIID, not in this prospectus
+2026-01-28 16:44:01.324 [INFO]   [Logic] Note: Fee table found on pages [6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 232, 233, 234, 235, 236]
+2026-01-28 16:44:01.324 [INFO]   [Logic] Note: External references: sub_custodians, swing_pricing, risk_profile, isin, esg_policy, switch_dates, performance, unknown, sustainability_preferences, dividend_yield, conflicts_of_interest, exclusions_policy, investment_managers
+2026-01-28 16:44:01.324 [INFO]   Done: isin=external, fee=consolidated_table | cross_refs=12 | [0.0s]
+2026-01-28 16:44:01.324 [INFO] 
+2026-01-28 16:44:01.324 [INFO] PLANNING (1 items, gpt-4o)
+2026-01-28 16:44:01.324 [INFO]   [Planning] Synthesizing 14 exploration reports...
+2026-01-28 16:44:01.324 [INFO]   [Planning] Using 23 canonical funds from EntityResolution
+2026-01-28 16:44:31.266 [INFO]   [Planning] Plan created for 24 funds
+2026-01-28 16:44:31.266 [INFO]   [Planning] Broadcast tables: ['share_class', 'fee']
+2026-01-28 16:44:31.267 [WARN] Planner umbrella pages span 261 pages (80%+ of 261-page document), rejecting as likely planner bug.
+2026-01-28 16:44:31.267 [INFO] Exploration found 32 umbrella pages, truncating to 30
+2026-01-28 16:44:31.268 [INFO]   [Planning] Updated 44 fund entities to canonical names in knowledge graph
+2026-01-28 16:44:31.268 [INFO]   Done: JPMorgan Investment Funds | funds=24, with_pages=24, broadcast_tables=2 | [29.9s]
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 1: Europe Select Equity Fund (p5-6)
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 2: Europe Strategic Dividend Fund (p7-8)
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 3: Global Core Equity Fund (p9-10)
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 4: Global Dividend Fund (p11-12)
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 5: Global Select Equity Fund (p13-14)
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 6: Japan Sustainable Equity Fund (p15-16)
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 7: Japan Strategic Value Fund (p17-18)
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 8: US Select Equity Fund (p19-20)
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 9: Dynamic Multi-Asset Fund (p21-22)
+2026-01-28 16:44:31.268 [INFO]   [Planning] Fund 10: Global Balanced Fund (p23-24)
+2026-01-28 16:44:31.268 [INFO]   [Planning] ... and 14 more funds
+2026-01-28 16:44:31.268 [INFO] 
+2026-01-28 16:44:31.268 [INFO] UMBRELLA (1 items, gpt-4o)
+2026-01-28 16:44:31.268 [DEBU] Matched constraint sections: ['Investment Restrictions and Powers (59-70)']
+2026-01-28 16:44:31.268 [INFO] Found 12 constraint pages from TOC: 59-70
+2026-01-28 16:44:31.268 [INFO] Umbrella page plan: UmbrellaPagePlan(source=toc, entity=20 pages, constraint=12 pages, ~24,000 tokens)
+2026-01-28 16:44:31.268 [INFO]   [Extraction] Umbrella page plan: UmbrellaPagePlan(source=toc, entity=20 pages, constraint=12 pages, ~24,000 tokens)
+2026-01-28 16:44:31.268 [INFO]   [Extraction] Pass 1: Entity info from 20 pages
+2026-01-28 16:44:31.333 [INFO]   [Extraction] Entity text: 95071 chars
+2026-01-28 16:46:18.629 [INFO]   [Extraction] Pass 2: Constraints from 12 TOC-guided pages
+2026-01-28 16:46:18.674 [INFO]   [Extraction] Constraint text: 45348 chars
+2026-01-28 16:46:34.174 [INFO]   [Extraction] Running critic verification
+2026-01-28 16:47:56.906 [INFO]   [Extraction] Critic confidence: 50%
+2026-01-28 16:47:56.906 [INFO]   Done: JPMorgan Investment Funds | [205.6s]
+2026-01-28 16:47:56.910 [INFO]   [Extraction] Generated 24 fund recipes
+2026-01-28 16:47:56.910 [INFO]   [Extraction] Broadcast tables to parse: ['fee']
+2026-01-28 16:47:56.910 [INFO]   [Extraction] Using pre-scanned fee: 243 rows
+2026-01-28 16:47:56.910 [INFO] 
+2026-01-28 16:47:56.910 [INFO] FUND EXTRACTION (RECIPE) (24 items, gpt-4o-mini)
+2026-01-28 16:48:45.447 [DEBU] [Global Core Equity Fund] Extraction timings: subfund=23.7s, share_classes=24.8s, parallel_searches=0.0s, total=48.5s
+2026-01-28 16:49:05.571 [INFO]   [1/24] Global Core Equity Fund (T:0) (68.7s)
+2026-01-28 16:52:05.606 [DEBU] [Europe Select Equity Fund] Extraction timings: subfund=25.9s, share_classes=201.3s, parallel_searches=21.5s, total=248.7s
+2026-01-28 16:52:09.054 [INFO] Conflict resolved for share_class:C.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 16:53:01.973 [DEBU] [Global Select Equity Fund] Extraction timings: subfund=23.1s, share_classes=259.6s, parallel_searches=22.3s, total=305.0s
+2026-01-28 16:53:01.977 [DEBU] Matched 'X' -> 'X' (score=100.0) at row 6
+2026-01-28 16:53:01.978 [DEBU] Matched 'X2' -> 'X2' (score=100.0) at row 7
+2026-01-28 16:53:05.432 [INFO] Conflict resolved for share_class:A.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:10.086 [INFO] Conflict resolved for share_class:D.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:13.216 [INFO] Conflict resolved for share_class:I.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:16.725 [INFO] Conflict resolved for share_class:I2.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:20.334 [INFO] Conflict resolved for share_class:X.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:23.466 [INFO] Conflict resolved for share_class:X2.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:24.702 [DEBU] [Europe Strategic Dividend Fund] Extraction timings: subfund=21.0s, share_classes=287.3s, parallel_searches=19.5s, total=327.8s
+2026-01-28 16:53:24.703 [DEBU] Matched 'X' -> 'X' (score=100.0) at row 6
+2026-01-28 16:53:24.703 [DEBU] Matched 'X2' -> 'X2' (score=100.0) at row 7
+2026-01-28 16:53:25.740 [DEBU] [Global Dividend Fund] Extraction timings: subfund=25.1s, share_classes=281.5s, parallel_searches=22.2s, total=328.8s
+2026-01-28 16:53:28.812 [INFO] Conflict resolved for share_class:C.management_fee: '0.50%' vs '0.65%' → kept '0.50%' (llm_verified)
+2026-01-28 16:53:29.287 [INFO] Conflict resolved for share_class:A.ongoing_charges: '0.30%' vs '1.85%' → kept '0.30%' (llm_verified)
+2026-01-28 16:53:32.492 [INFO] Conflict resolved for share_class:A.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:32.756 [INFO] Conflict resolved for share_class:C.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 16:53:36.162 [INFO] Conflict resolved for share_class:F.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 16:53:36.305 [INFO] Conflict resolved for share_class:C.management_fee: '0.60%' vs '0.60%' → kept '0.60%' (llm_verified)
+2026-01-28 16:53:39.607 [INFO] Conflict resolved for share_class:I.management_fee: '0.65%' vs '0.65%' → kept '0.65%' (llm_verified)
+2026-01-28 16:53:39.972 [INFO] Conflict resolved for share_class:D.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:43.286 [INFO] Conflict resolved for share_class:I.management_fee: '0.60%' vs '0.60%' → kept '0.60%' (llm_verified)
+2026-01-28 16:53:43.939 [INFO] Conflict resolved for share_class:I2.management_fee: '0.40%' vs '0.50%' → kept '0.40%' (llm_verified)
+2026-01-28 16:53:47.663 [INFO] Conflict resolved for share_class:I.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:51.118 [INFO] Conflict resolved for share_class:I2.management_fee: '0.40%' vs '0.50%' → kept '0.40%' (llm_verified)
+2026-01-28 16:53:55.046 [INFO] Conflict resolved for share_class:I2.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:53:58.215 [INFO] Conflict resolved for share_class:X.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:54:01.974 [INFO] Conflict resolved for share_class:X2.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 16:54:12.295 [INFO]   [2/24] Europe Select Equity Fund (T:0) (375.4s)
+2026-01-28 16:55:04.468 [INFO]   [3/24] Global Select Equity Fund (T:0) (427.6s)
+2026-01-28 16:55:24.330 [DEBU] [Japan Sustainable Equity Fund] Extraction timings: subfund=22.0s, share_classes=316.0s, parallel_searches=40.7s, total=378.7s
+2026-01-28 16:55:27.343 [INFO] Conflict resolved for share_class:A.currency: 'EUR' vs 'JPY' → kept 'EUR' (llm_verified)
+2026-01-28 16:55:31.019 [INFO] Conflict resolved for share_class:C.management_fee: '0.60%' vs '0.75%' → kept '0.60%' (llm_verified)
+2026-01-28 16:55:34.676 [INFO] Conflict resolved for share_class:C.currency: 'USD' vs 'JPY' → kept 'USD' (llm_verified)
+2026-01-28 16:55:37.280 [INFO] Conflict resolved for share_class:D.currency: 'EUR' vs 'JPY' → kept 'EUR' (llm_verified)
+2026-01-28 16:55:40.929 [INFO]   [4/24] Europe Strategic Dividend Fund (T:0) (464.0s)
+2026-01-28 16:55:41.217 [INFO] Conflict resolved for share_class:I.management_fee: '0.60%' vs '0.75%' → kept '0.60%' (llm_verified)
+2026-01-28 16:55:44.227 [INFO] Conflict resolved for share_class:I.currency: 'EUR' vs 'JPY' → kept 'EUR' (llm_verified)
+2026-01-28 16:55:47.741 [INFO] Conflict resolved for share_class:I2.management_fee: '0.40%' vs '0.50%' → kept '0.40%' (llm_verified)
+2026-01-28 16:55:51.198 [INFO] Conflict resolved for share_class:I2.currency: 'EUR' vs 'JPY' → kept 'EUR' (llm_verified)
+2026-01-28 16:55:54.413 [INFO] Conflict resolved for share_class:X.management_fee: '0.15%' vs '0.15%' → kept '0.15%' (llm_verified)
+2026-01-28 16:55:57.486 [INFO] Conflict resolved for share_class:X.currency: 'EUR' vs 'JPY' → kept 'EUR' (llm_verified)
+2026-01-28 16:56:01.209 [INFO] Conflict resolved for share_class:X2.currency: 'EUR' vs 'JPY' → kept 'EUR' (llm_verified)
+2026-01-28 16:58:13.787 [INFO]   [5/24] Japan Sustainable Equity Fund (T:0) (616.9s)
+2026-01-28 16:58:58.436 [DEBU] [Japan Strategic Value Fund] Extraction timings: subfund=22.6s, share_classes=227.5s, parallel_searches=36.1s, total=286.1s
+2026-01-28 16:58:58.436 [DEBU] Matched 'X' -> 'X' (score=100.0) at row 6
+2026-01-28 16:58:58.436 [DEBU] Matched 'X2' -> 'X2' (score=100.0) at row 7
+2026-01-28 16:58:58.437 [INFO] Conflict resolved for share_class:A.currency: 'JPY' vs 'JPY' → kept 'JPY' (recency)
+2026-01-28 16:59:01.558 [INFO] Conflict resolved for share_class:C.management_fee: '0.75%' vs '0.75%' → kept '0.75%' (llm_verified)
+2026-01-28 16:59:04.485 [INFO] Conflict resolved for share_class:C.currency: 'USD' vs 'JPY' → kept 'USD' (llm_verified)
+2026-01-28 16:59:04.485 [INFO] Conflict resolved for share_class:D.currency: 'JPY' vs 'JPY' → kept 'JPY' (recency)
+2026-01-28 16:59:07.544 [INFO] Conflict resolved for share_class:I.management_fee: '0.60%' vs '0.75%' → kept '0.60%' (llm_verified)
+2026-01-28 16:59:07.545 [INFO] Conflict resolved for share_class:I.currency: 'JPY' vs 'JPY' → kept 'JPY' (recency)
+2026-01-28 16:59:07.545 [INFO] Conflict resolved for share_class:I2.management_fee: '0.50%' vs '0.50%' → kept '0.50%' (recency)
+2026-01-28 16:59:10.915 [INFO] Conflict resolved for share_class:I2.exit_fee: '1.00%' vs '0.50%' → kept '1.00%' (llm_verified)
+2026-01-28 16:59:10.915 [INFO] Conflict resolved for share_class:I2.currency: 'JPY' vs 'JPY' → kept 'JPY' (recency)
+2026-01-28 16:59:10.915 [INFO] Conflict resolved for share_class:X.currency: 'JPY' vs 'JPY' → kept 'JPY' (recency)
+2026-01-28 16:59:10.915 [INFO] Conflict resolved for share_class:X2.currency: 'JPY' vs 'JPY' → kept 'JPY' (recency)
+2026-01-28 17:00:20.750 [INFO]   [6/24] Global Dividend Fund (T:0) (743.8s)
+2026-01-28 17:00:31.722 [DEBU] [US Select Equity Fund] Extraction timings: subfund=33.8s, share_classes=245.7s, parallel_searches=47.8s, total=327.2s
+2026-01-28 17:00:31.722 [DEBU] Matched 'X2' -> 'X2' (score=100.0) at row 7
+2026-01-28 17:00:33.136 [INFO]   [7/24] Japan Strategic Value Fund (T:0) (756.2s)
+2026-01-28 17:00:36.069 [INFO] Conflict resolved for share_class:A.currency: 'JPY' vs 'USD' → kept 'JPY' (llm_verified)
+2026-01-28 17:00:40.898 [INFO] Conflict resolved for share_class:C.management_fee: '0.75%' vs '0.50%' → kept '0.75%' (llm_verified)
+2026-01-28 17:00:44.313 [INFO] Conflict resolved for share_class:D.currency: 'JPY' vs 'USD' → kept 'JPY' (llm_verified)
+2026-01-28 17:00:47.881 [INFO] Conflict resolved for share_class:I.management_fee: '0.60%' vs '0.50%' → kept '0.60%' (llm_verified)
+2026-01-28 17:00:47.882 [INFO] Conflict resolved for share_class:I.exit_fee: '0.50%' vs '0.50%' → kept '0.50%' (recency)
+2026-01-28 17:00:52.773 [INFO] Conflict resolved for share_class:I.currency: 'JPY' vs 'USD' → kept 'JPY' (llm_verified)
+2026-01-28 17:00:56.163 [INFO] Conflict resolved for share_class:I2.management_fee: '0.40%' vs '0.40%' → kept '0.40%' (llm_verified)
+2026-01-28 17:00:56.163 [INFO] Conflict resolved for share_class:I2.exit_fee: '{'value': '0.40%', 'source_page': 20, 'source_quote': 'Redemption Charge: 0.40%', 'rationale': 'Explicitly stated in the fee table', 'confidence': 0.95}' vs '{'value': '0.40%', 'source_page': 20, 'source_quote': 'Redemption Charge: 0.40%', 'rationale': 'Explicitly stated in the fee table', 'confidence': 0.95}' → kept '{'value': '0.40%', 'source_page': 20, 'source_quote': 'Redemption Charge: 0.40%', 'rationale': 'Explicitly stated in the fee table', 'confidence': 0.95}' (recency)
+2026-01-28 17:01:02.673 [INFO] Conflict resolved for share_class:I2.currency: 'JPY' vs 'USD' → kept 'JPY' (llm_verified)
+2026-01-28 17:01:05.907 [INFO] Conflict resolved for share_class:X.management_fee: '0.15%' vs '0.00%' → kept '0.15%' (llm_verified)
+2026-01-28 17:01:05.907 [INFO] Conflict resolved for share_class:X.exit_fee: '{'value': 'NOT_FOUND', 'source_page': None, 'source_quote': None, 'rationale': 'No exit fee mentioned for this share class in pages reviewed', 'confidence': 0.8, 'not_found_reason': 'not_in_document'}' vs '{'value': 'NOT_FOUND', 'source_page': None, 'source_quote': None, 'rationale': 'No exit fee mentioned for this share class in pages reviewed', 'confidence': 0.8, 'not_found_reason': 'not_in_document'}' → kept '{'value': 'NOT_FOUND', 'source_page': None, 'source_quote': None, 'rationale': 'No exit fee mentioned for this share class in pages reviewed', 'confidence': 0.8, 'not_found_reason': 'not_in_document'}' (recency)
+2026-01-28 17:01:10.368 [INFO] Conflict resolved for share_class:X.currency: 'JPY' vs 'USD' → kept 'JPY' (llm_verified)
+2026-01-28 17:01:10.368 [INFO] Conflict resolved for share_class:X2.exit_fee: '{'value': 'NOT_FOUND', 'source_page': None, 'source_quote': None, 'rationale': 'No exit fee mentioned for this share class in pages reviewed', 'confidence': 0.8, 'not_found_reason': 'not_in_document'}' vs '{'value': 'NOT_FOUND', 'source_page': None, 'source_quote': None, 'rationale': 'No exit fee mentioned for this share class in pages reviewed', 'confidence': 0.8, 'not_found_reason': 'not_in_document'}' → kept '{'value': 'NOT_FOUND', 'source_page': None, 'source_quote': None, 'rationale': 'No exit fee mentioned for this share class in pages reviewed', 'confidence': 0.8, 'not_found_reason': 'not_in_document'}' (recency)
+2026-01-28 17:01:10.368 [INFO] Conflict resolved for share_class:X2.ongoing_charges: '{'value': '0.12%', 'source_page': 20, 'source_quote': 'Operating and Administrative Expenses (Max): 0.12%', 'rationale': 'Included in the fee schedule for ongoing charges', 'confidence': 0.95}' vs '{'value': '0.12%', 'source_page': 20, 'source_quote': 'Operating and Administrative Expenses (Max): 0.12%', 'rationale': 'Included in the fee schedule for ongoing charges', 'confidence': 0.95}' → kept '{'value': '0.12%', 'source_page': 20, 'source_quote': 'Operating and Administrative Expenses (Max): 0.12%', 'rationale': 'Included in the fee schedule for ongoing charges', 'confidence': 0.95}' (recency)
+2026-01-28 17:01:15.080 [INFO] Conflict resolved for share_class:X2.currency: 'JPY' vs 'USD' → kept 'JPY' (llm_verified)
+2026-01-28 17:01:32.122 [DEBU] [Dynamic Multi-Asset Fund] Extraction timings: subfund=24.3s, share_classes=278.5s, parallel_searches=48.5s, total=351.2s
+2026-01-28 17:01:32.122 [DEBU] Column 'Base Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:01:32.122 [DEBU] Column 'Share Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:01:32.122 [DEBU] Column 'Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:01:32.122 [INFO] Conflict resolved for share_class:A.management_fee: '1.25%' vs '1.25%' → kept '1.25%' (recency)
+2026-01-28 17:01:32.122 [INFO] Conflict resolved for share_class:A.ongoing_charges: '0.20%' vs '0.20%' → kept '0.20%' (recency)
+2026-01-28 17:01:35.724 [INFO] Conflict resolved for share_class:A.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:01:39.732 [INFO] Conflict resolved for share_class:C.management_fee: '0.75%' vs '0.60%' → kept '0.75%' (llm_verified)
+2026-01-28 17:01:39.732 [INFO] Conflict resolved for share_class:C.ongoing_charges: '0.15%' vs '0.15%' → kept '0.15%' (recency)
+2026-01-28 17:01:39.732 [INFO] Conflict resolved for share_class:C.currency: 'EUR' vs 'EUR' → kept 'EUR' (recency)
+2026-01-28 17:01:39.732 [INFO] Conflict resolved for share_class:D.management_fee: '1.25%' vs '1.25%' → kept '1.25%' (recency)
+2026-01-28 17:01:39.732 [INFO] Conflict resolved for share_class:D.ongoing_charges: '0.20%' vs '0.20%' → kept '0.20%' (recency)
+2026-01-28 17:01:43.708 [INFO] Conflict resolved for share_class:D.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:01:47.407 [INFO] Conflict resolved for share_class:I.exit_fee: '0.50%' vs '1.00%' → kept '0.50%' (llm_verified)
+2026-01-28 17:01:47.407 [INFO] Conflict resolved for share_class:I.ongoing_charges: '0.11%' vs '0.11%' → kept '0.11%' (recency)
+2026-01-28 17:01:50.764 [INFO] Conflict resolved for share_class:I.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:01:56.863 [INFO] Conflict resolved for share_class:I2.management_fee: '0.40%' vs '0.50%' → kept '0.40%' (llm_verified)
+2026-01-28 17:01:56.863 [INFO] Conflict resolved for share_class:I2.exit_fee: '1.00%' vs '1.00%' → kept '1.00%' (recency)
+2026-01-28 17:01:56.863 [INFO] Conflict resolved for share_class:I2.ongoing_charges: '0.07%' vs '0.07%' → kept '0.07%' (recency)
+2026-01-28 17:02:02.963 [INFO] Conflict resolved for share_class:I2.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:02:06.665 [INFO] Conflict resolved for share_class:X.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:02:58.775 [DEBU] [Global Income Fund] Extraction timings: subfund=37.6s, share_classes=81.5s, parallel_searches=38.9s, total=158.0s
+2026-01-28 17:03:03.000 [INFO] Conflict resolved for share_class:A.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:03:10.747 [INFO] Conflict resolved for share_class:C.management_fee: '0.75%' vs '0.60%' → kept '0.75%' (llm_verified)
+2026-01-28 17:03:13.140 [INFO]   [8/24] US Select Equity Fund (T:0) (916.2s)
+2026-01-28 17:04:08.580 [DEBU] [Global Balanced Fund] Extraction timings: subfund=29.2s, share_classes=287.6s, parallel_searches=38.0s, total=354.8s
+2026-01-28 17:04:08.580 [DEBU] Column 'Base Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:04:08.580 [DEBU] Column 'Share Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:04:08.580 [DEBU] Column 'Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:04:08.580 [DEBU] Column 'Base Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:04:08.580 [DEBU] Column 'Share Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:04:08.580 [DEBU] Column 'Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:04:09.972 [INFO]   [9/24] Global Income Fund (T:0) (973.1s)
+2026-01-28 17:04:13.807 [INFO] Conflict resolved for share_class:A.management_fee: '1.45%' vs '1.45%' → kept '1.45%' (llm_verified)
+2026-01-28 17:04:17.047 [INFO] Conflict resolved for share_class:A.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:04:19.894 [INFO] Conflict resolved for share_class:C2.management_fee: '0.58%' vs '0.58%' → kept '0.58%' (llm_verified)
+2026-01-28 17:04:24.140 [INFO] Conflict resolved for share_class:D.management_fee: '1.45%' vs '1.45%' → kept '1.45%' (llm_verified)
+2026-01-28 17:04:28.248 [INFO] Conflict resolved for share_class:D.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:04:28.248 [INFO] Conflict resolved for share_class:I.management_fee: '0.75%' vs '0.75%' → kept '0.75%' (recency)
+2026-01-28 17:04:34.169 [INFO] Conflict resolved for share_class:I.exit_fee: '0.50%' vs '1.00%' → kept '0.50%' (llm_verified)
+2026-01-28 17:04:40.026 [INFO] Conflict resolved for share_class:I.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:04:43.056 [INFO] Conflict resolved for share_class:I2.management_fee: '0.58%' vs '0.58%' → kept '0.58%' (llm_verified)
+2026-01-28 17:04:46.283 [INFO] Conflict resolved for share_class:I2.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:04:46.283 [INFO] Conflict resolved for share_class:T.management_fee: '1.45%' vs '1.45%' → kept '1.45%' (recency)
+2026-01-28 17:04:46.283 [INFO] Conflict resolved for share_class:T.ongoing_charges: '0.20%' vs '0.20%' → kept '0.20%' (recency)
+2026-01-28 17:04:46.283 [INFO] Conflict resolved for share_class:T.currency: 'EUR' vs 'EUR' → kept 'EUR' (recency)
+2026-01-28 17:04:46.283 [INFO] Conflict resolved for share_class:X.exit_fee: '1.00%' vs '1.00%' → kept '1.00%' (recency)
+2026-01-28 17:04:50.601 [INFO] Conflict resolved for share_class:X.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:04:50.601 [INFO] Conflict resolved for share_class:X2.exit_fee: '1.00%' vs '1.00%' → kept '1.00%' (recency)
+2026-01-28 17:04:54.661 [INFO] Conflict resolved for share_class:X2.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:05:14.741 [INFO]   [10/24] Dynamic Multi-Asset Fund (T:0) (1037.8s)
+2026-01-28 17:06:53.558 [INFO]   [11/24] Global Balanced Fund (T:0) (1136.6s)
+2026-01-28 17:07:43.960 [DEBU] [Global Income Conservative Fund] Extraction timings: subfund=27.0s, share_classes=369.3s, parallel_searches=34.6s, total=430.8s
+2026-01-28 17:07:43.961 [DEBU] Column 'Base Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:07:43.961 [DEBU] Column 'Share Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:07:43.961 [DEBU] Column 'Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:07:43.961 [DEBU] Column 'Base Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:07:43.961 [DEBU] Column 'Share Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:07:43.961 [DEBU] Column 'Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:07:47.689 [INFO] Conflict resolved for share_class:A.management_fee: '1.45%' vs '1.25%' → kept '1.45%' (llm_verified)
+2026-01-28 17:07:51.773 [INFO] Conflict resolved for share_class:A.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:07:55.727 [INFO] Conflict resolved for share_class:C.management_fee: '0.75%' vs '0.60%' → kept '0.75%' (llm_verified)
+2026-01-28 17:07:58.917 [INFO] Conflict resolved for share_class:D.management_fee: '1.45%' vs '1.25%' → kept '1.45%' (llm_verified)
+2026-01-28 17:08:03.477 [INFO] Conflict resolved for share_class:D.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:08:10.139 [INFO] Conflict resolved for share_class:I.management_fee: '0.75%' vs '0.60%' → kept '0.75%' (llm_verified)
+2026-01-28 17:08:14.683 [INFO] Conflict resolved for share_class:I.exit_fee: '0.50%' vs '1.00%' → kept '0.50%' (llm_verified)
+2026-01-28 17:08:18.043 [INFO] Conflict resolved for share_class:I.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:08:21.679 [INFO] Conflict resolved for share_class:I2.management_fee: '0.58%' vs '0.50%' → kept '0.58%' (llm_verified)
+2026-01-28 17:08:25.384 [INFO] Conflict resolved for share_class:I2.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:08:25.385 [INFO] Conflict resolved for share_class:S2.management_fee: '0.30%' vs '0.30%' → kept '0.30%' (recency)
+2026-01-28 17:08:25.385 [INFO] Conflict resolved for share_class:S2.ongoing_charges: '0.11%' vs '0.11%' → kept '0.11%' (recency)
+2026-01-28 17:08:25.385 [INFO] Conflict resolved for share_class:S2.currency: 'EUR' vs 'EUR' → kept 'EUR' (recency)
+2026-01-28 17:08:31.057 [INFO] Conflict resolved for share_class:T.management_fee: '1.45%' vs '1.25%' → kept '1.45%' (llm_verified)
+2026-01-28 17:08:31.058 [INFO] Conflict resolved for share_class:X.ongoing_charges: '0.10%' vs '0.10%' → kept '0.10%' (recency)
+2026-01-28 17:08:35.208 [INFO] Conflict resolved for share_class:X.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:08:35.208 [INFO] Conflict resolved for share_class:X2.ongoing_charges: '0.07%' vs '0.07%' → kept '0.07%' (recency)
+2026-01-28 17:08:39.341 [INFO] Conflict resolved for share_class:X2.currency: 'JPY' vs 'EUR' → kept 'JPY' (llm_verified)
+2026-01-28 17:10:26.837 [ERRO] [17:10:26] ERROR: [Extraction] [Global Income ESG Fund] Recipe extraction failed: Unterminated string starting at: line 1804 column 22 (char 64944)
+2026-01-28 17:10:37.859 [INFO]   [12/24] Global Income Conservative Fun (T:0) (1360.9s)
+2026-01-28 17:11:12.899 [DEBU] [Global Macro Fund] Extraction timings: subfund=28.8s, share_classes=371.4s, parallel_searches=22.7s, total=422.9s
+2026-01-28 17:11:12.899 [DEBU] Column 'Base Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:11:12.899 [DEBU] Column 'Share Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:11:12.899 [DEBU] Column 'Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:11:16.499 [INFO] Conflict resolved for share_class:A.management_fee: '1.45%' vs '1.25%' → kept '1.45%' (llm_verified)
+2026-01-28 17:11:16.499 [INFO] Conflict resolved for share_class:A.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:11:16.499 [INFO] Conflict resolved for share_class:C.management_fee: '0.60%' vs '0.60%' → kept '0.60%' (recency)
+2026-01-28 17:11:20.069 [INFO] Conflict resolved for share_class:C.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 17:11:23.589 [INFO] Conflict resolved for share_class:C2.management_fee: '0.58%' vs '0.50%' → kept '0.58%' (llm_verified)
+2026-01-28 17:11:26.594 [INFO] Conflict resolved for share_class:C2.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 17:11:31.028 [INFO] Conflict resolved for share_class:D.management_fee: '1.45%' vs '1.25%' → kept '1.45%' (llm_verified)
+2026-01-28 17:11:31.028 [INFO] Conflict resolved for share_class:D.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:11:33.517 [DEBU] [Global Macro Opportunities Fund] Extraction timings: subfund=39.3s, share_classes=299.7s, parallel_searches=39.8s, total=378.8s
+2026-01-28 17:11:33.517 [DEBU] Column 'Base Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:11:33.517 [DEBU] Column 'Share Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:11:33.517 [DEBU] Column 'Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:11:34.034 [INFO] Conflict resolved for share_class:I.management_fee: '0.75%' vs '0.60%' → kept '0.75%' (llm_verified)
+2026-01-28 17:11:34.034 [INFO] Conflict resolved for share_class:I.exit_fee: '1.00%' vs '1.00%' → kept '1.00%' (recency)
+2026-01-28 17:11:34.034 [INFO] Conflict resolved for share_class:I.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:11:36.280 [INFO] Conflict resolved for share_class:A.management_fee: '1.45%' vs '1.25%' → kept '1.45%' (llm_verified)
+2026-01-28 17:11:37.394 [INFO] Conflict resolved for share_class:I2.management_fee: '0.58%' vs '0.50%' → kept '0.58%' (llm_verified)
+2026-01-28 17:11:37.394 [INFO] Conflict resolved for share_class:I2.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:11:39.812 [INFO] Conflict resolved for share_class:A.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:11:40.678 [INFO] Conflict resolved for share_class:T.management_fee: '1.45%' vs '1.25%' → kept '1.45%' (llm_verified)
+2026-01-28 17:11:44.265 [INFO] Conflict resolved for share_class:T.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 17:11:44.265 [INFO] Conflict resolved for share_class:X.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:11:44.875 [INFO] Conflict resolved for share_class:C.exit_fee: '1.00%' vs '0.50%' → kept '1.00%' (llm_verified)
+2026-01-28 17:11:48.025 [INFO] Conflict resolved for share_class:C2.management_fee: '0.58%' vs '0.50%' → kept '0.58%' (llm_verified)
+2026-01-28 17:11:51.043 [INFO] Conflict resolved for share_class:D.management_fee: '1.45%' vs '1.25%' → kept '1.45%' (llm_verified)
+2026-01-28 17:11:54.219 [INFO] Conflict resolved for share_class:D.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:11:58.534 [INFO] Conflict resolved for share_class:I.management_fee: '0.75%' vs '0.60%' → kept '0.75%' (llm_verified)
+2026-01-28 17:12:02.507 [INFO] Conflict resolved for share_class:I.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:12:04.243 [DEBU] [Global Macro Sustainable Fund] Extraction timings: subfund=26.6s, share_classes=251.8s, parallel_searches=32.2s, total=310.7s
+2026-01-28 17:12:04.244 [DEBU] Column 'Base Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:12:04.244 [DEBU] Column 'Share Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:12:04.244 [DEBU] Column 'Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:12:04.244 [INFO] Conflict resolved for share_class:A.management_fee: '1.25%' vs '1.25%' → kept '1.25%' (recency)
+2026-01-28 17:12:05.083 [INFO] Conflict resolved for share_class:I2.management_fee: '0.58%' vs '0.50%' → kept '0.58%' (llm_verified)
+2026-01-28 17:12:07.372 [INFO] Conflict resolved for share_class:I2.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:12:07.395 [INFO] Conflict resolved for share_class:A.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:12:07.395 [INFO] Conflict resolved for share_class:D.management_fee: '1.25%' vs '1.25%' → kept '1.25%' (recency)
+2026-01-28 17:12:10.379 [INFO] Conflict resolved for share_class:T.management_fee: '1.45%' vs '1.25%' → kept '1.45%' (llm_verified)
+2026-01-28 17:12:11.137 [INFO] Conflict resolved for share_class:D.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:12:11.137 [INFO] Conflict resolved for share_class:I.management_fee: '0.60%' vs '0.60%' → kept '0.60%' (recency)
+2026-01-28 17:12:14.071 [INFO] Conflict resolved for share_class:X.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:12:14.187 [INFO] Conflict resolved for share_class:I.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:12:14.187 [INFO] Conflict resolved for share_class:I2.management_fee: '0.50%' vs '0.50%' → kept '0.50%' (recency)
+2026-01-28 17:12:16.824 [INFO] Conflict resolved for share_class:I2.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:12:16.824 [INFO] Conflict resolved for share_class:T.management_fee: '1.25%' vs '1.25%' → kept '1.25%' (recency)
+2026-01-28 17:12:16.824 [INFO] Conflict resolved for share_class:X.exit_fee: 'NOT_FOUND' vs 'NOT_FOUND' → kept 'NOT_FOUND' (recency)
+2026-01-28 17:12:20.382 [INFO] Conflict resolved for share_class:X.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
+2026-01-28 17:14:25.165 [INFO]   [13/24] Global Macro Sustainable Fund (T:0) (1588.3s)
+2026-01-28 17:15:21.035 [DEBU] [Global Convertibles Conservative Fund] Extraction timings: subfund=27.2s, share_classes=236.1s, parallel_searches=19.9s, total=283.2s
+2026-01-28 17:15:24.792 [INFO] Conflict resolved for share_class:A.management_fee: '1.25%' vs '1.10%' → kept '1.25%' (llm_verified)
+2026-01-28 17:15:24.793 [INFO] Conflict resolved for share_class:A.ongoing_charges: '0.30%' vs '0.30%' → kept '0.30%' (recency)
+2026-01-28 17:15:28.970 [INFO] Conflict resolved for share_class:C.management_fee: '0.60%' vs '0.55%' → kept '0.60%' (llm_verified)
+2026-01-28 17:15:28.971 [INFO] Conflict resolved for share_class:C.ongoing_charges: '0.20%' vs '0.20%' → kept '0.20%' (recency)
+2026-01-28 17:15:28.971 [INFO] Conflict resolved for share_class:C.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:15:31.946 [INFO] Conflict resolved for share_class:D.management_fee: '1.25%' vs '1.10%' → kept '1.25%' (llm_verified)
+2026-01-28 17:15:31.946 [INFO] Conflict resolved for share_class:D.ongoing_charges: '0.30%' vs '0.30%' → kept '0.30%' (recency)
+2026-01-28 17:15:31.997 [INFO]   [14/24] Global Macro Fund (T:0) (1655.1s)
+2026-01-28 17:15:34.444 [INFO] Conflict resolved for share_class:I.management_fee: '0.60%' vs '0.55%' → kept '0.60%' (llm_verified)
+2026-01-28 17:15:34.445 [INFO] Conflict resolved for share_class:I.ongoing_charges: '0.16%' vs '0.16%' → kept '0.16%' (recency)
+2026-01-28 17:15:36.800 [INFO] Conflict resolved for share_class:I2.management_fee: '0.44%' vs '0.44%' → kept '0.44%' (llm_verified)
+2026-01-28 17:15:36.800 [INFO] Conflict resolved for share_class:I2.ongoing_charges: '0.12%' vs '0.12%' → kept '0.12%' (recency)
+2026-01-28 17:15:36.801 [INFO] Conflict resolved for share_class:X.management_fee: '0.00%' vs '0.00%' → kept '0.00%' (recency)
+2026-01-28 17:15:36.801 [INFO] Conflict resolved for share_class:X.exit_fee: '1.00%' vs '1.00%' → kept '1.00%' (recency)
+2026-01-28 17:15:36.801 [INFO] Conflict resolved for share_class:X.ongoing_charges: '0.15%' vs '0.15%' → kept '0.15%' (recency)
+2026-01-28 17:15:36.801 [INFO] Conflict resolved for share_class:X2.ongoing_charges: '0.12%' vs '0.12%' → kept '0.12%' (recency)
+2026-01-28 17:15:36.801 [INFO] Conflict resolved for share_class:X2.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:16:17.952 [INFO]   [15/24] Global Macro Opportunities Fun (T:0) (1701.0s)
+2026-01-28 17:16:28.558 [DEBU] [US Multi-Asset High Income Fund] Extraction timings: subfund=32.7s, share_classes=287.6s, parallel_searches=41.4s, total=361.7s
+2026-01-28 17:16:28.558 [DEBU] Column 'Base Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:16:28.558 [DEBU] Column 'Share Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:16:28.558 [DEBU] Column 'Class' not found in ['One-off charges taken before or after investing (maximum)', 'Fees and expenses taken from the Sub-Fund over a year']
+2026-01-28 17:16:34.638 [INFO] Conflict resolved for share_class:A.ongoing_charges: '0.30%' vs '0.20%' → kept '0.30%' (llm_verified)
+2026-01-28 17:16:37.596 [INFO] Conflict resolved for share_class:C.ongoing_charges: '0.20%' vs '0.15%' → kept '0.20%' (llm_verified)
+2026-01-28 17:16:37.596 [INFO] Conflict resolved for share_class:C2.management_fee: '0.50%' vs '0.50%' → kept '0.50%' (recency)
+2026-01-28 17:16:37.596 [INFO] Conflict resolved for share_class:C2.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:16:41.422 [INFO] Conflict resolved for share_class:D.ongoing_charges: '0.30%' vs '0.20%' → kept '0.30%' (llm_verified)
+2026-01-28 17:16:44.640 [INFO] Conflict resolved for share_class:I.ongoing_charges: '0.16%' vs '0.11%' → kept '0.16%' (llm_verified)
+2026-01-28 17:16:47.595 [INFO] Conflict resolved for share_class:I2.management_fee: '0.44%' vs '0.50%' → kept '0.44%' (llm_verified)
+2026-01-28 17:16:51.346 [INFO] Conflict resolved for share_class:I2.ongoing_charges: '0.12%' vs '0.07%' → kept '0.12%' (llm_verified)
+2026-01-28 17:16:51.346 [INFO] Conflict resolved for share_class:S1.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:17:28.399 [INFO]   [16/24] Global Convertibles Conservati (T:0) (1771.5s)
+2026-01-28 17:17:43.398 [DEBU] [Global Short Duration Corporate Bond Sustainable Fund] Extraction timings: subfund=25.5s, share_classes=150.9s, parallel_searches=21.8s, total=198.2s
+2026-01-28 17:17:43.399 [DEBU] Matched 'I' -> 'I' (score=100.0) at row 4
+2026-01-28 17:17:43.399 [DEBU] Matched 'I2' -> 'I2' (score=100.0) at row 5
+2026-01-28 17:17:43.399 [DEBU] Matched 'S2' -> 'S2' (score=100.0) at row 54
+2026-01-28 17:17:46.593 [INFO] Conflict resolved for share_class:A.management_fee: '1.25%' vs '0.50%' → kept '1.25%' (llm_verified)
+2026-01-28 17:17:46.593 [INFO] Conflict resolved for share_class:A.entry_fee: '3.00%' vs '3.00%' → kept '3.00%' (recency)
+2026-01-28 17:17:48.884 [INFO] Conflict resolved for share_class:A.exit_fee: '1.00%' vs '0.50%' → kept '1.00%' (llm_verified)
+2026-01-28 17:17:52.154 [INFO] Conflict resolved for share_class:A.ongoing_charges: '0.30%' vs '0.20%' → kept '0.30%' (llm_verified)
+2026-01-28 17:17:54.994 [INFO] Conflict resolved for share_class:C.management_fee: '0.60%' vs '0.65%' → kept '0.60%' (llm_verified)
+2026-01-28 17:17:58.775 [INFO] Conflict resolved for share_class:C.ongoing_charges: '0.15%' vs '0.15%' → kept '0.15%' (llm_verified)
+2026-01-28 17:18:04.186 [INFO] Conflict resolved for share_class:D.management_fee: '1.25%' vs '0.50%' → kept '1.25%' (llm_verified)
+2026-01-28 17:18:04.187 [INFO] Conflict resolved for share_class:D.entry_fee: '3.00%' vs '3.00%' → kept '3.00%' (recency)
+2026-01-28 17:18:07.452 [INFO] Conflict resolved for share_class:D.exit_fee: '1.00%' vs '0.50%' → kept '1.00%' (llm_verified)
+2026-01-28 17:18:10.239 [INFO]   [17/24] US Multi-Asset High Income Fun (T:0) (1813.3s)
+2026-01-28 17:18:11.952 [INFO] Conflict resolved for share_class:D.ongoing_charges: '0.30%' vs '0.20%' → kept '0.30%' (llm_verified)
+2026-01-28 17:18:15.083 [INFO] Conflict resolved for share_class:I.ongoing_charges: '0.11%' vs '0.11%' → kept '0.11%' (llm_verified)
+2026-01-28 17:18:19.040 [INFO] Conflict resolved for share_class:I2.ongoing_charges: '0.07%' vs '0.07%' → kept '0.07%' (llm_verified)
+2026-01-28 17:18:19.040 [INFO] Conflict resolved for share_class:S2.currency: 'USD' vs 'USD' → kept 'USD' (recency)
+2026-01-28 17:19:22.820 [DEBU] [Income Opportunity Fund] Extraction timings: subfund=20.7s, share_classes=145.5s, parallel_searches=18.7s, total=184.9s
+2026-01-28 17:19:22.821 [DEBU] Matched 'X' -> 'X' (score=100.0) at row 6
+2026-01-28 17:19:22.822 [DEBU] Entity merged: 'C (perf)' → 'A (perf)'
+2026-01-28 17:19:22.822 [DEBU] Entity merged: 'D (perf)' → 'A (perf)'
+2026-01-28 17:19:22.822 [DEBU] Entity merged: 'I (perf)' → 'A (perf)'
+2026-01-28 17:19:22.822 [DEBU] Entity merged: 'T (perf)' → 'A (perf)'
+2026-01-28 17:19:33.782 [INFO]   [18/24] Global Short Duration Corporat (T:0) (1896.9s)
+2026-01-28 17:20:04.648 [DEBU] [Coutts Diversifying Alternatives Multi-Manager Fund] Extraction timings: subfund=31.2s, share_classes=83.2s, parallel_searches=0.0s, total=114.4s
+2026-01-28 17:20:08.772 [INFO] Conflict resolved for share_class:A (perf).management_fee: '1.00%' vs '1.50%' → kept '1.00%' (llm_verified)
+2026-01-28 17:20:12.424 [INFO] Conflict resolved for share_class:A (perf).entry_fee: '3.00%' vs '1.00%' → kept '3.00%' (llm_verified)
+2026-01-28 17:20:17.282 [INFO] Conflict resolved for share_class:A (perf).exit_fee: '0.50%' vs '1.00%' → kept '0.50%' (llm_verified)
+2026-01-28 17:20:23.965 [INFO] Conflict resolved for share_class:A (perf).ongoing_charges: '0.20%' vs '0.30%' → kept '0.20%' (llm_verified)
+2026-01-28 17:20:28.637 [INFO] Conflict resolved for share_class:A (perf).performance_fee: '20.00%' vs '30.00%' → kept '20.00%' (llm_verified)
+2026-01-28 17:20:28.648 [DEBU] [JPMorgan Investment Funds - Global Multi-Asset Growth Sustainable Fund] Extraction timings: subfund=21.3s, share_classes=26.3s, parallel_searches=7.3s, total=54.9s
+2026-01-28 17:20:28.649 [DEBU] Fuzzy matched fund 'JPMorgan Investment Funds - Global Multi-Asset Growth Sustainable Fund' to entity 'JPMORGAN INVESTMENT FUNDS - GLOBAL MULTI-ASSET GROWTH SUSTAINABLE FUND'
+2026-01-28 17:20:28.650 [DEBU] Fuzzy matched fund 'JPMorgan Investment Funds - Global Multi-Asset Growth Sustainable Fund' to entity 'JPMORGAN INVESTMENT FUNDS - GLOBAL MULTI-ASSET GROWTH SUSTAINABLE FUND'
+2026-01-28 17:20:28.651 [DEBU] Fuzzy matched fund 'JPMorgan Investment Funds - Global Multi-Asset Growth Sustainable Fund' to entity 'JPMORGAN INVESTMENT FUNDS - GLOBAL MULTI-ASSET GROWTH SUSTAINABLE FUND'
+2026-01-28 17:20:30.524 [ERRO] [17:20:30] ERROR: [Extraction] [Global High Yield Bond Fund] Recipe extraction failed: Unterminated string starting at: line 1863 column 9 (char 64983)
+2026-01-28 17:20:32.357 [INFO] Conflict resolved for share_class:A (perf).currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 17:20:36.521 [INFO] Conflict resolved for share_class:I (perf).management_fee: '0.55%' vs '0.75%' → kept '0.55%' (llm_verified)
+2026-01-28 17:20:40.503 [INFO] Conflict resolved for share_class:I (perf).ongoing_charges: '0.11%' vs '0.16%' → kept '0.11%' (llm_verified)
+2026-01-28 17:20:44.032 [INFO] Conflict resolved for share_class:I (perf).performance_fee: '20.00%' vs '30.00%' → kept '20.00%' (llm_verified)
+2026-01-28 17:20:45.307 [INFO]   [19/24] Income Opportunity Fund (T:0) (1968.4s)
+2026-01-28 17:20:47.812 [INFO] Conflict resolved for share_class:I (perf).currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 17:20:48.202 [INFO]   [20/24] JPMorgan Investment Funds - Gl (T:0) (1971.3s)
+2026-01-28 17:20:52.029 [INFO] Conflict resolved for share_class:C (perf).management_fee: '0.55%' vs '0.75%' → kept '0.55%' (llm_verified)
+2026-01-28 17:20:52.030 [INFO] Conflict resolved for share_class:C (perf).exit_fee: '1.00%' vs '1.00%' → kept '1.00%' (recency)
+2026-01-28 17:20:56.013 [INFO] Conflict resolved for share_class:C (perf).ongoing_charges: '0.15%' vs '0.20%' → kept '0.15%' (llm_verified)
+2026-01-28 17:20:59.846 [INFO] Conflict resolved for share_class:C (perf).performance_fee: '30.00%' vs '30.00%' → kept '30.00%' (llm_verified)
+2026-01-28 17:21:03.952 [INFO] Conflict resolved for share_class:C (perf).currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
+2026-01-28 17:21:53.117 [INFO]   [21/24] Coutts Diversifying Alternativ (T:0) (2036.2s)
+2026-01-28 17:22:56.746 [DEBU] [US Bond Fund] Extraction timings: subfund=23.3s, share_classes=254.7s, parallel_searches=50.3s, total=328.3s
+2026-01-28 17:22:56.747 [DEBU] Matched 'X' -> 'X' (score=100.0) at row 6
+2026-01-28 17:22:56.747 [DEBU] Matched 'X2' -> 'X2' (score=100.0) at row 7
+2026-01-28 17:22:56.747 [INFO] Conflict resolved for share_class:A.management_fee: '0.90%' vs '0.90%' → kept '0.90%' (recency)
+2026-01-28 17:22:56.747 [INFO] Conflict resolved for share_class:A.exit_fee: '0.50%' vs '0.50%' → kept '0.50%' (recency)
+2026-01-28 17:23:00.840 [INFO] Conflict resolved for share_class:A.ongoing_charges: '0.30%' vs '0.20%' → kept '0.30%' (llm_verified)
+2026-01-28 17:23:00.840 [INFO] Conflict resolved for share_class:C.management_fee: '0.45%' vs '0.45%' → kept '0.45%' (recency)
+2026-01-28 17:23:00.840 [INFO] Conflict resolved for share_class:D.management_fee: '0.90%' vs '0.90%' → kept '0.90%' (recency)
+2026-01-28 17:23:00.840 [INFO] Conflict resolved for share_class:D.exit_fee: '0.50%' vs '0.50%' → kept '0.50%' (recency)
+2026-01-28 17:23:04.915 [INFO] Conflict resolved for share_class:D.ongoing_charges: '0.30%' vs '0.20%' → kept '0.30%' (llm_verified)
+2026-01-28 17:23:04.915 [INFO] Conflict resolved for share_class:I.management_fee: '0.45%' vs '0.45%' → kept '0.45%' (recency)
+2026-01-28 17:23:08.107 [INFO] Conflict resolved for share_class:I2.management_fee: '0.44%' vs '0.36%' → kept '0.44%' (llm_verified)
+2026-01-28 17:23:12.101 [INFO] Conflict resolved for share_class:X.ongoing_charges: '0.15%' vs '0.10%' → kept '0.15%' (llm_verified)
+2026-01-28 17:23:16.189 [INFO] Conflict resolved for share_class:X2.ongoing_charges: '0.12%' vs '0.07%' → kept '0.12%' (llm_verified)
+2026-01-28 17:25:26.963 [INFO]   [22/24] US Bond Fund (T:0) (2250.1s)
+2026-01-28 17:25:26.969 [INFO]   [Extraction] Knowledge graph: 159 unresolved questions
+2026-01-28 17:25:26.969 [INFO]   Done: 24 funds | failed=2 | [2250.1s]
+2026-01-28 17:25:26.969 [INFO]   [Extraction] KG-RAG graph after extraction: 154 facts recorded
+2026-01-28 17:25:26.970 [WARN] [17:25:26] WARN: [Extraction] RECONCILIATION ISSUE: 29 orphaned facts (entity not found)
+2026-01-28 17:25:26.970 [DEBU] [17:25:26] [Extraction] Reconciliation warning: 3 funds have no extracted facts: ['Global Income ESG Fund', 'Global High Yield Bond Fund', 'JPMORGAN INVESTMENT FUNDS - GLOBAL MULTI-ASSET GROWTH SUSTAINABLE FUND']
+2026-01-28 17:25:26.970 [INFO]   [Extraction] Resolved 216 conflicts during extraction
+2026-01-28 17:25:26.970 [INFO]   [Extraction] Merged 4 duplicate entities
+2026-01-28 17:25:26.971 [INFO] 
+2026-01-28 17:25:26.971 [INFO] FAILURERECOVERY (77 items)
+2026-01-28 17:25:26.971 [INFO]   [FailureRecovery] Found 77 fields needing resolution
+2026-01-28 17:25:26.971 [INFO]   [FailureRecovery] Queuing 32 isin fields for resolution
+2026-01-28 17:25:26.971 [INFO]   [FailureRecovery] Queuing 13 dividend_frequency fields for resolution
+2026-01-28 17:25:26.971 [INFO]   [FailureRecovery] Queuing 18 valuation_point fields for resolution
+2026-01-28 17:25:26.971 [INFO]   [FailureRecovery] Queuing 12 dividend_dates fields for resolution
+2026-01-28 17:25:26.971 [INFO]   [FailureRecovery] Running 75 resolver tasks in parallel
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [1/75] (1%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [2/75] (3%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [3/75] (4%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [4/75] (5%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [5/75] (7%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [6/75] (8%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [7/75] (9%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [8/75] (11%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [9/75] (12%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [10/75] (13%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [11/75] (15%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [12/75] (16%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [13/75] (17%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [14/75] (19%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [15/75] (20%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [16/75] (21%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [17/75] (23%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [18/75] (24%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [19/75] (25%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [20/75] (27%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [21/75] (28%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [22/75] (29%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [23/75] (31%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [24/75] (32%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [25/75] (33%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [26/75] (35%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [27/75] (36%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [28/75] (37%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [29/75] (39%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [30/75] (40%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [31/75] (41%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [32/75] (43%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [33/75] (44%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [34/75] (45%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [35/75] (47%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [36/75] (48%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [37/75] (49%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [38/75] (51%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [39/75] (52%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [40/75] (53%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [41/75] (55%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [42/75] (56%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [43/75] (57%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [44/75] (59%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [45/75] (60%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [46/75] (61%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [47/75] (63%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [48/75] (64%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [49/75] (65%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [50/75] (67%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [51/75] (68%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [52/75] (69%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [53/75] (71%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [54/75] (72%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [55/75] (73%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [56/75] (75%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [57/75] (76%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [58/75] (77%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [59/75] (79%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [60/75] (80%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [61/75] (81%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [62/75] (83%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [63/75] (84%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [64/75] (85%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [65/75] (87%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [66/75] (88%) resolving
+2026-01-28 17:27:23.247 [DEBU] [17:27:23] [67/75] (89%) resolving
+2026-01-28 17:27:23.248 [DEBU] [17:27:23] [68/75] (91%) resolving
+2026-01-28 17:27:23.248 [DEBU] [17:27:23] [69/75] (92%) resolving
+2026-01-28 17:27:23.248 [DEBU] [17:27:23] [70/75] (93%) resolving
+2026-01-28 17:27:23.248 [DEBU] [17:27:23] [71/75] (95%) resolving
+2026-01-28 17:27:23.248 [DEBU] [17:27:23] [72/75] (96%) resolving
+2026-01-28 17:27:23.248 [DEBU] [17:27:23] [73/75] (97%) resolving
+2026-01-28 17:27:23.248 [DEBU] [17:27:23] [74/75] (99%) resolving
+2026-01-28 17:27:23.248 [DEBU] [17:27:23] [75/75] (100%) resolving
+2026-01-28 17:27:23.248 [INFO]   Done: 0 resolved | upgraded=77, still_failed=0 | [116.3s]
+2026-01-28 17:27:23.248 [INFO] 
+2026-01-28 17:27:23.248 [INFO] ASSEMBLY (3 items)
+2026-01-28 17:27:23.248 [INFO]   [Assembly] No common gaps detected
+2026-01-28 17:27:23.248 [DEBU] [17:27:23] [1/3] (33%) gaps filled
+2026-01-28 17:27:23.256 [DEBU] [17:27:23] [2/3] (67%) graph built
+2026-01-28 17:27:23.259 [DEBU] [17:27:23] [3/3] (100%) stats computed
+2026-01-28 17:27:23.259 [INFO]   Done: 24 sub-funds, 146 share classes | values_tracked=7988, high_confidence=4770, not_found=2680, actionable=212 | [0.0s]
+2026-01-28 17:27:23.259 [WARN] [17:27:23] WARN: [Assembly] Reconciliation found 1 issue(s)
+2026-01-28 17:27:23.259 [WARN] [17:27:23] WARN: [Assembly]   - FUNDS_WITHOUT_SHARE_CLASSES: 2 funds have 0 share classes: [ExtractedValue(value='Global Income ESG Fund', source_page=29, source_quote=None, rationale='Fund name from recipe (extraction failed)', confidence=1.0, not_found_reason=None, external_reference=None, is_discovered=False, extraction_pass=1, source_type=None), ExtractedValue(value='Global High Yield Bond Fund', source_page=43, source_quote=None, rationale='Fund name from recipe (extraction failed)', confidence=1.0, not_found_reason=None, external_reference=None, is_discovered=False, extraction_pass=1, source_type=None)]
+2026-01-28 17:27:23.260 [INFO] 
+2026-01-28 17:27:23.260 [INFO] SUMMARY
+  explorers: 14
+  funds_planned: 24
+  funds_extracted: 24
+  broadcast_tables: 1
+  critic_verifications: 169
+  average_confidence: 0.8266
+  table_scan:
+    tables_found: 85
+    pages_with_tables: 261
+  external_refs:
+    refs_found: 1
+    fields_external: {'isin': 'KIID'}
+  entity_resolution:
+    mentions_found: 82
+    canonical_funds: 23
+    duplicates_merged: 44
+    low_confidence_filtered: 0
+  resolver:
+    fields_needing_resolution: 77
+    resolved: 0
+    upgraded_to_typed: 77
+    still_failed: 0
+  errors:
+    total_errors: 2
+    total_warnings: 0
+    failed_entities: 2
+    errors_by_category: {'llm_api': 2}
+2026-01-28 17:27:23.260 [INFO] 
+==================================================
+2026-01-28 17:27:23.260 [INFO] Pipeline COMPLETE [46m 18s]
+2026-01-28 17:27:23.260 [INFO] ==================================================
+2026-01-28 17:27:23.260 [INFO] Log: outputs/logs/jpm_umbrella_20260128_164105.log

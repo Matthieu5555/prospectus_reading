@@ -5,14 +5,14 @@ that guides structure-aware chunking.
 
 Strategy:
 1. Check native TOC via pdf.get_toc()
-2. If empty, use layout detection on first pages to find TOC/headers
+2. If empty, use LLM to extract TOC from first pages
 3. Output DocumentSkeleton with section boundaries
 """
 
 from dataclasses import dataclass
 
 from extractor.phases.phase_base import PhaseRunner
-from extractor.pydantic_models import DocumentSkeleton
+from extractor.pydantic_models import DocumentSkeleton, SectionInfo
 from extractor.core import skeleton_from_native_toc
 
 
@@ -65,20 +65,20 @@ class SkeletonPhase(PhaseRunner[SkeletonResult]):
                     section_count=len(skeleton.sections),
                 )
 
-        # Strategy 2: Layout detection (fallback)
-        self.log("No native TOC, attempting layout detection")
-        skeleton = await self._detect_layout_skeleton(total_pages)
+        # Strategy 2: LLM-based TOC extraction (fallback)
+        self.log("No native TOC, attempting LLM extraction")
+        skeleton = await self._detect_toc_with_llm(total_pages)
 
         if skeleton and skeleton.sections:
-            self.log(f"Layout detection found {len(skeleton.sections)} sections")
+            self.log(f"LLM extraction found {len(skeleton.sections)} sections")
             self._store_skeleton(skeleton)
             self.logger.phase_result(
                 "Skeleton",
-                f"{len(skeleton.sections)} sections from layout detection",
+                f"{len(skeleton.sections)} sections from LLM extraction",
             )
             return SkeletonResult(
                 skeleton=skeleton,
-                toc_source="layout",
+                toc_source="llm",
                 section_count=len(skeleton.sections),
             )
 
@@ -91,17 +91,113 @@ class SkeletonPhase(PhaseRunner[SkeletonResult]):
             section_count=0,
         )
 
-    async def _detect_layout_skeleton(self, total_pages: int) -> DocumentSkeleton | None:
-        """Use layout detection to find document structure.
+    async def _detect_toc_with_llm(self, total_pages: int) -> DocumentSkeleton | None:
+        """Use LLM to extract TOC from first pages when native TOC is missing.
 
-        Stub: Not yet implemented. Would render first N pages and use
-        Surya LayoutPredictor to find TableOfContents and SectionHeader elements.
+        Reads the first 10-15 pages (where TOC typically lives) and uses LLM
+        to identify document structure, section headings, and page numbers.
 
-        Native TOC handles most prospectuses, so this is low priority.
+        Args:
+            total_pages: Total pages in the document.
+
+        Returns:
+            DocumentSkeleton if structure was detected, None otherwise.
         """
-        # Not implemented - native TOC works for most documents
-        self.log("Layout detection not yet implemented, skipping")
-        return None
+        from extractor.core.llm_client import LLMClient
+        from extractor.pydantic_models.extraction_models import LLMExtractedTOC
+
+        # Read first 10-15 pages (usually where TOC lives)
+        pages_to_read = min(15, total_pages)
+        pages_text = self.context.pdf.read_pages(1, pages_to_read)
+
+        if not pages_text or len(pages_text.strip()) < 200:
+            self.log("Insufficient text for LLM TOC extraction", "warning")
+            return None
+
+        client = LLMClient(cost_tracker=self.context.cost_tracker)
+
+        system_prompt = """You are analyzing a financial document (likely a fund prospectus).
+Your task is to extract the table of contents or document structure.
+
+Look for:
+1. A literal "Table of Contents" or "Contents" section listing sections with page numbers
+2. Major section headings that appear to be chapter/part divisions
+3. Common prospectus sections: "Investment Objectives", "Risk Factors", "Fees and Expenses", etc.
+
+Return structured JSON with:
+- sections: List of section titles, page numbers (1-indexed), and hierarchy levels
+- document_title: The main document title if visible
+- confidence: 0.0-1.0 based on how clearly you could identify structure
+- notes: Any issues or ambiguities
+
+If you find a clear TOC listing, confidence should be high (0.8+).
+If inferring structure from headings, confidence should be medium (0.5-0.7).
+If structure is unclear, return empty sections list with low confidence."""
+
+        user_prompt = f"""Extract the table of contents from these document pages (pages 1-{pages_to_read}):
+
+---
+{pages_text[:25000]}
+---
+
+Identify all major sections with their page numbers and hierarchy levels.
+Level 1 = top-level sections, Level 2 = subsections, etc."""
+
+        try:
+            result = await client.complete_structured(
+                system_prompt=system_prompt,
+                user_prompt=user_prompt,
+                model=self.context.config.smart_model,
+                response_model=LLMExtractedTOC,
+                agent="skeleton_llm",
+            )
+
+            if not result.sections:
+                self.log(f"LLM found no TOC sections (confidence: {result.confidence:.0%})", "warning")
+                if result.notes:
+                    self.log(f"LLM notes: {result.notes}", "debug")
+                return None
+
+            self.log(f"LLM extracted {len(result.sections)} TOC sections (confidence: {result.confidence:.0%})")
+
+            # Convert to DocumentSkeleton format
+            return self._llm_toc_to_skeleton(result, total_pages)
+
+        except Exception as e:
+            self.log(f"LLM TOC extraction failed: {e}", "warning")
+            return None
+
+    def _llm_toc_to_skeleton(self, toc: "LLMExtractedTOC", total_pages: int) -> DocumentSkeleton:
+        """Convert LLM-extracted TOC to DocumentSkeleton format.
+
+        Args:
+            toc: LLM extraction result.
+            total_pages: Total document pages (for calculating end pages).
+
+        Returns:
+            DocumentSkeleton with section boundaries.
+        """
+        sections = []
+
+        for i, s in enumerate(toc.sections):
+            # Calculate end page: next section's start - 1, or document end
+            if i + 1 < len(toc.sections):
+                end_page = max(s.page, toc.sections[i + 1].page - 1)
+            else:
+                end_page = total_pages
+
+            sections.append(SectionInfo(
+                title=s.title,
+                level=s.level,
+                page_start=s.page,
+                page_end=end_page,
+            ))
+
+        return DocumentSkeleton(
+            sections=sections,
+            total_pages=total_pages,
+            toc_source="llm",
+        )
 
     def _store_skeleton(self, skeleton: DocumentSkeleton) -> None:
         """Store skeleton in context for downstream phases."""

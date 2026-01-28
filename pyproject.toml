@@ -5,20 +5,12 @@ description = "UCITS prospectus entity extraction using autonomous agents"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "marimo>=0.19.2",
-    "pillow>=10.4.0",
     "pymupdf==1.26.6",
-    "surya-ocr>=0.17.0",
-    "smolagents>=1.0.0",
+    "pymupdf-layout==1.26.6",
     "litellm>=1.0.0",
     "pydantic>=2.0.0",
     "python-dotenv>=1.0.0",
-    "tenacity>=8.0.0",
     "rapidfuzz>=3.14.3",
-    "networkx>=3.6.1",
-    "pyvis>=0.3.2",
-    "marker-pdf>=1.6.0",
-    "pymupdf-layout==1.26.6",
     "instructor>=1.12.0",
 ]
 

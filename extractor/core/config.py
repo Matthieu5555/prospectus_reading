@@ -97,6 +97,14 @@ DEFAULT_MODELS: Final[dict[str, str]] = {
 All default to the fast model for cost efficiency. Use --smart-model to enable
 smarter models for high-impact phases (exploration, planning).
 
+Why default everything to the fast model when SMART_MODEL exists? Because most
+users run this on their own API budget. A single prospectus extraction can make
+100+ LLM calls—defaulting to GPT-4 would surprise users with expensive bills.
+The --smart-model flag is an opt-in to quality over cost. This is a conservative
+default: better to start cheap and let users upgrade than to burn through their
+API credits unexpectedly. (This could have been a single MODEL constant, but the
+two-tier approach lets power users fine-tune cost/quality tradeoffs per phase.)
+
 To use more capable models for specific agents:
     orchestrator = Orchestrator(pdf_path, smart_model="openrouter/openai/gpt-4o")
 """
@@ -272,7 +280,112 @@ class ChunkingConfig:
     """
 
 
+def adaptive_chunk_size(total_pages: int, base_size: int = 30) -> int:
+    """Calculate chunk size based on document length.
+
+    Larger documents tend to have denser content and more complex structure.
+    Smaller chunks prevent token overflow and improve exploration accuracy.
+
+    Args:
+        total_pages: Total document pages.
+        base_size: Default chunk size for normal documents (default 30).
+
+    Returns:
+        Recommended chunk size (minimum 10, maximum base_size).
+
+    Examples:
+        >>> adaptive_chunk_size(50)   # Small doc
+        30
+        >>> adaptive_chunk_size(150)  # Medium doc
+        25
+        >>> adaptive_chunk_size(400)  # Large doc
+        15
+        >>> adaptive_chunk_size(600)  # Very large doc
+        10
+    """
+    if total_pages <= 100:
+        return base_size  # 30 pages - normal
+    elif total_pages <= 200:
+        return 25  # Slightly smaller
+    elif total_pages <= 350:
+        return 20  # Medium reduction
+    elif total_pages <= 500:
+        return 15  # Significant reduction
+    else:
+        return 10  # Very large documents - small chunks
+
+
 # Extraction Logic Constants
+
+class UmbrellaConfig:
+    """Configuration for robust umbrella extraction.
+
+    Uses a two-pass approach to guarantee we never exceed token limits:
+    1. Entity info (name, depositary, management_company): bounded intro+outro pages
+    2. Constraints (investment restrictions, leverage): TOC-guided or search fallback
+
+    Used by: umbrella_page_selector.py, extraction_phase.py
+    """
+
+    # Token estimation
+    CHARS_PER_TOKEN: Final[int] = 4
+    """Approximate characters per token for estimation.
+
+    Used for pre-flight token checks before LLM calls.
+    Conservative estimate (actual is ~3.5 for English text).
+    """
+
+    MAX_UMBRELLA_INPUT_TOKENS: Final[int] = 80_000
+    """Maximum tokens for a single umbrella extraction LLM call.
+
+    Safety limit to prevent token overflow errors (128k context - response).
+    Used by: umbrella_page_selector.py:estimate_tokens()
+    """
+
+    # Entity info extraction (Pass 1) - always bounded
+    ENTITY_INTRO_PAGES: Final[int] = 5
+    """Pages from document start for entity info (name, legal form, domicile).
+
+    First pages contain legal disclaimers, UCITS status, fund structure.
+    """
+
+    ENTITY_OUTRO_PAGES: Final[int] = 15
+    """Pages from document end for service provider info.
+
+    Management company, depositary, auditor often in appendices.
+    """
+
+    # Constraint extraction (Pass 2) - TOC-guided
+    CONSTRAINT_SECTION_PATTERNS: Final[tuple[str, ...]] = (
+        "investment restriction",
+        "investment policy",
+        "investment objective",
+        "investment limit",
+        "risk management",
+        "leverage",
+        "borrowing",
+        "derivative",
+        "general investment",
+        "appendix",  # Often contains investment restrictions
+    )
+    """TOC section names that typically contain constraint information.
+
+    Case-insensitive matching against section.name.lower().
+    Used by: umbrella_page_selector.py:_find_constraint_sections()
+    """
+
+    CONSTRAINT_MAX_PAGES: Final[int] = 40
+    """Maximum pages to read for constraint extraction.
+
+    Even with TOC guidance, cap the page count to prevent overflow.
+    """
+
+    CONSTRAINT_SEARCH_FALLBACK_PAGES: Final[int] = 20
+    """Pages to search when no TOC constraint sections found.
+
+    Uses pattern-based search as fallback.
+    """
+
 
 class ExtractionConfig:
     """Constants for extraction phase logic."""

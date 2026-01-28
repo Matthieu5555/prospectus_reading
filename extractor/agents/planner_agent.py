@@ -391,13 +391,17 @@ def _compute_umbrella_pages(
     """Compute validated umbrella pages from exploration data.
 
     Strategy:
-    1. Collect umbrella_info_pages from all explorers (they found legal entity info)
+    1. **Validate planner pages** - reject if excessive (> MAX_UMBRELLA_PAGES)
     2. If planner's umbrella_pages is reasonable (non-empty, <= MAX), use it
-    3. If planner's is empty or too large, use collected exploration pages
+    3. Collect umbrella_info_pages from explorers as fallback
     4. If nothing found, fall back to heuristic: first N + last M pages
 
     This ensures we never read excessive pages for umbrella extraction,
-    preventing token explosion errors like BadRequestError.
+    preventing token explosion errors like BadRequestError (292k tokens).
+
+    **Key insight**: The extraction phase now uses a two-pass approach with
+    smart page selection (umbrella_page_selector.py), so this validation is
+    a safety net for the planner output, not the primary page selection logic.
 
     Args:
         plan_umbrella_pages: Pages from LLM planner (may be wrong).
@@ -407,9 +411,52 @@ def _compute_umbrella_pages(
     Returns:
         Validated list of umbrella pages, capped at MAX_UMBRELLA_PAGES.
     """
+    import logging
+    logger = logging.getLogger(__name__)
+
     max_pages = ExtractionConfig.MAX_UMBRELLA_PAGES
     intro_pages = ExtractionConfig.UMBRELLA_INTRO_PAGES
     end_pages = ExtractionConfig.UMBRELLA_END_PAGES
+
+    # Validate planner pages first
+    planner_pages = plan_umbrella_pages or []
+    planner_page_count = len(planner_pages)
+
+    # CRITICAL: Reject excessive planner output (this indicates a planner bug)
+    if planner_page_count > max_pages:
+        logger.warning(
+            f"Planner returned {planner_page_count} umbrella pages (> {max_pages}), "
+            f"rejecting and using heuristic. This indicates a planner bug."
+        )
+        planner_pages = []
+        planner_page_count = 0
+
+    # Additional check: reject if planner returned nearly ALL pages
+    # (e.g., [1, 2, 3, ..., 261] for a 261-page document)
+    if planner_page_count > 0 and planner_page_count >= total_pages * 0.9:
+        logger.warning(
+            f"Planner returned {planner_page_count}/{total_pages} pages "
+            f"({planner_page_count/total_pages:.0%} of document), "
+            f"rejecting as likely planner bug."
+        )
+        planner_pages = []
+        planner_page_count = 0
+
+    # Check for large span (e.g., pages 1-250 out of 261)
+    if planner_page_count > 0:
+        span = planner_pages[-1] - planner_pages[0] + 1
+        if span > total_pages * 0.8:
+            logger.warning(
+                f"Planner umbrella pages span {span} pages "
+                f"(80%+ of {total_pages}-page document), "
+                f"rejecting as likely planner bug."
+            )
+            planner_pages = []
+            planner_page_count = 0
+
+    # If planner pages are valid and reasonable, use them
+    if planner_page_count > 0 and planner_page_count <= max_pages:
+        return sorted(planner_pages)
 
     # Collect umbrella_info_pages from all exploration notes
     collected_pages: set[int] = set()
@@ -422,24 +469,24 @@ def _compute_umbrella_pages(
             if entry.content_type == "general_info":
                 collected_pages.add(entry.page)
 
-    # Decision logic
-    planner_pages = plan_umbrella_pages or []
-    planner_page_count = len(planner_pages)
-
-    if planner_page_count > 0 and planner_page_count <= max_pages:
-        # Planner's pages are reasonable - use them
-        return sorted(planner_pages)
-
     if collected_pages:
         # Use exploration-discovered umbrella pages
         result = sorted(collected_pages)
         if len(result) > max_pages:
             # Too many - take first chunk + last chunk
+            logger.info(
+                f"Exploration found {len(result)} umbrella pages, "
+                f"truncating to {max_pages}"
+            )
             return result[:intro_pages] + result[-(max_pages - intro_pages):]
         return result
 
     # Fallback heuristic: first N pages + last M pages
     # This covers legal disclaimers at start + appendices at end
+    logger.info(
+        f"No valid umbrella pages from planner or exploration, "
+        f"using heuristic (first {intro_pages} + last {end_pages})"
+    )
     fallback: list[int] = []
 
     # First few pages (legal structure, UCITS status)

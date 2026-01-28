@@ -13,10 +13,18 @@ from extractor.core.config import (
     PageLimits,
     ChunkingConfig,
     ExtractionConfig as ExtractionConfigConstants,
+    UmbrellaConfig,
     SearchPatterns,
     LLMConfig,
     RetryConfig,
     RegexPatterns,
+)
+from extractor.core.umbrella_page_selector import (
+    UmbrellaPagePlan,
+    select_umbrella_pages,
+    validate_umbrella_pages,
+    estimate_tokens,
+    check_token_limit,
 )
 from extractor.core.llm_client import (
     LLMClient,
@@ -110,10 +118,17 @@ __all__ = [
     "PageLimits",
     "ChunkingConfig",
     "ExtractionConfigConstants",
+    "UmbrellaConfig",
     "SearchPatterns",
     "LLMConfig",
     "RetryConfig",
     "RegexPatterns",
+    # Umbrella page selection
+    "UmbrellaPagePlan",
+    "select_umbrella_pages",
+    "validate_umbrella_pages",
+    "estimate_tokens",
+    "check_token_limit",
     # LLM Client
     "LLMClient",
     "LLMResponse",

@@ -28,6 +28,7 @@ from extractor.core import (
     Finding, FindingType,
     skeleton_from_native_toc,
 )
+from extractor.core.config import adaptive_chunk_size
 
 
 @dataclass
@@ -65,9 +66,13 @@ class ExplorationPhase(PhaseRunner[ExplorationResult]):
             skeleton = skeleton_from_native_toc(native_toc, total_pages)
             self.log(f"Native TOC: {len(native_toc)} entries (used for cross-ref context)")
 
-        # Always use naive chunking - simple and predictable
-        chunks = self.context.pdf.get_page_chunks(self.context.chunk_size)
-        self.log(f"Exploring {total_pages} pages in {len(chunks)} chunks of {self.context.chunk_size} pages")
+        # Use adaptive chunk size for large documents to prevent token overflow
+        effective_chunk_size = adaptive_chunk_size(total_pages, base_size=self.context.chunk_size)
+        chunks = self.context.pdf.get_page_chunks(effective_chunk_size)
+
+        if effective_chunk_size != self.context.chunk_size:
+            self.log(f"Adaptive chunking: reduced from {self.context.chunk_size} to {effective_chunk_size} pages for {total_pages}-page document")
+        self.log(f"Exploring {total_pages} pages in {len(chunks)} chunks of {effective_chunk_size} pages")
 
         self.start(len(chunks), model=self.context.exploration_model)
 

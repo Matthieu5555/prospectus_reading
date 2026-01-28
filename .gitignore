@@ -19,8 +19,6 @@ wheels/
 .pytest_cache/
 .ruff_cache/
 
-# Outputs (generated at runtime)
-outputs/
-
 # IDE/Editor specific
 .idea/
+.claude/

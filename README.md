@@ -45,19 +45,25 @@ Run `uv run python -m extractor.cli --help` for the full option list.
 
 ## Reviewing extraction quality
 
-After an extraction completes, you'll have a JSON file in `outputs/json/`. To actually make sense of it, the project ships with a standalone HTML report generator:
+After an extraction completes, you'll have a JSON file in `outputs/json/`. The natural question is: did it actually work? The project ships with a visualizer that answers this:
 
 ```bash
 uv run visualize outputs/json/jpm_umbrella.json
 ```
 
-This opens an interactive dashboard in your browser (dark-themed, searchable, with every extracted value showing its source page, confidence score, and the exact quote it was pulled from on hover). It also surfaces cost breakdowns, unresolved questions, and schema suggestions. It's the primary tool for judging whether an extraction run was any good.
+This opens a searchable dashboard where you can click any extracted value and see exactly where it came from: the page number, the confidence score, and the literal quote from the PDF. It's how you spot-check whether the system found real data or hallucinated something plausible-looking. The dashboard also shows cost breakdowns (how much you spent on API calls), unresolved questions (fields the system couldn't find), and schema suggestions (data patterns it noticed but couldn't categorize).
 
-This is deliberately separate from the main pipeline. Extraction and review are different activities: one is automated and expensive (API calls), the other is manual and free (reading HTML). You'll often re-review old outputs without re-running extraction.
+Why is this separate from the main pipeline? Because extraction and review are different activities. Extraction is automated and costs money (every LLM call has a price). Review is manual and free (you're just reading HTML). You'll often re-review old outputs days later without wanting to re-run extraction. Keeping them separate means you can iterate on the visualizer without touching the extraction code, and vice versa.
 
 ## How it works
 
-The system is a 9-phase pipeline. Each phase is a self-contained class that reads from shared state, does its job, and writes results back. If you want to understand the architecture, **start by reading `extractor/orchestrator.py`**, it's the most important file in the codebase and contains an ASCII diagram of the full phase graph.
+The system is a 9-phase pipeline. Each phase is a self-contained class that reads from shared state, does its job, and writes results back. If you want to understand the architecture, **start by reading `extractor/orchestrator.py`**—it's the most important file in the codebase and contains an ASCII diagram of the full phase graph.
+
+### Why phases and shared state?
+
+You might wonder: why not just have one big function that does everything? Two reasons. First, testability—each phase can be tested in isolation with mocked inputs. Second, memory—a 400-page prospectus generates a lot of intermediate data during exploration. Shared state lets each phase drop its working data after handing off results, keeping memory bounded. (This could have been done with generators or streaming, but explicit phases are easier to debug. You can inspect the state between any two phases without reconstructing call chains.)
+
+There's also a distinction between **phases** and **agents**. Phases are orchestration units that run in sequence and manage the pipeline's state. Agents are the LLM-calling workers that phases spawn—they do the actual reading and extraction. This split means you can test an agent (e.g., "does the reader correctly extract ISINs from this text?") without running the whole pipeline.
 
 Here's what happens when you run an extraction:
 
@@ -90,6 +96,22 @@ Here's what happens when you run an extraction:
 There's also an optional **FailureRecovery** phase that retries failed extractions with broader search strategies (more pages, different search patterns), and the **Critic** agent (enabled with `--critic`) that independently verifies extracted values and assigns confidence scores. The critic receives parsed tables as authoritative ground truth, so if LLM extraction differs from table data, the table wins.
 
 If that sounds like a lot, the key insight is simple: the pipeline mimics how a human analyst would work. You'd skim the table of contents, note which pages cover which funds, plan your reading, then systematically extract data. The system does the same thing, just in parallel and with structured outputs.
+
+## When things go wrong
+
+Extraction failed or produced garbage? Here's how to debug common problems:
+
+**Zero funds extracted**: Check whether the TOC was detected. Run with `--verbose` and look for the Skeleton phase output. If it says "No native TOC found" and falls back to regex detection, your PDF probably lacks bookmarks. Try a different PDF or check if the PDF was created by scanning (scanned PDFs often lack structural metadata).
+
+**Funds detected but values are wrong**: Open the visualizer and click on a suspicious value. Check the "source quote"—this is the literal text the LLM saw. If the quote is correct but the extraction is wrong, the LLM hallucinated. If the quote is garbage (garbled text, wrong section), the PDF text extraction failed. Multi-column layouts and unusual fonts often cause this.
+
+**"External reference" for fields that exist in the document**: The ExternalRefScan phase might have false-positived. Check the logs for "Text proximity: field_name -> KIID" messages. If it's matching something like "ISIN codes are assigned by..." as an external reference, the keyword detection is too aggressive. You can temporarily disable external ref detection by editing `external_ref_scan_phase.py`.
+
+**Token overflow errors**: Your PDF is too dense for the chunk size. Run with a smaller chunk size: `--chunk-size 15`. Or check if specific pages have unusually dense content (tables with hundreds of rows)—the adaptive chunking should handle this, but edge cases exist.
+
+**Extraction is slow**: Check your concurrency setting. Default is 5 parallel API calls. If you have headroom on rate limits, try `-c 10`. Also check if the critic is enabled (`--critic`)—it doubles the LLM calls. For test runs, disable it.
+
+**Costs are higher than expected**: Run the visualizer and check the cost breakdown. Exploration and planning use the smart model by default when `--smart-model` is set. Per-fund extraction uses the fast model. If you're extracting 100 funds, most cost comes from volume, not model choice.
 
 ## Known limitations
 
@@ -130,6 +152,8 @@ extractor/
   pydantic_models/       # Output schemas (Umbrella → SubFund → ShareClass)
   tests/                 # pytest suite
 ```
+
+The separation between `agents/` and `phases/` might seem redundant—both "do work," right? But they serve different purposes. Phases manage sequencing and state: "first we explore, then we plan, then we extract." Agents do the actual LLM work: "read these pages and find the ISINs." This separation lets you unit-test agents with fake PDF text without running the whole pipeline, and it lets you add new phases (e.g., a "summarize" phase at the end) without touching agent code.
 
 ## Using as a library
 
@@ -175,10 +199,10 @@ All tunable constants live in `extractor/core/config.py`, heavily documented wit
 
 The pipeline uses a two-tier model approach:
 
-- **Smart model** (`gpt-4o` by default): Used for exploration, planning, and umbrella extraction, phases where reasoning quality significantly impacts downstream results. Override with `--smart-model`.
-- **Fast model** (`gpt-4o-mini` by default): Used for per-fund extraction and critic verification, high-volume operations where cost matters more than reasoning depth.
+- **Smart model** (`gpt-4o` by default): Used for exploration, planning, and umbrella extraction—phases where reasoning quality significantly impacts downstream results. Override with `--smart-model`.
+- **Fast model** (`gpt-4o-mini` by default): Used for per-fund extraction and critic verification—high-volume operations where cost matters more than reasoning depth.
 
-This balances quality and cost: smart reasoning where it counts, fast/cheap execution for the bulk of the work.
+Why not just use the smart model everywhere? Because errors in early phases cascade. If exploration misses a fund, planning won't include it, and extraction will never look for it. Those early phases justify the higher cost. But per-fund extraction is repetitive work—reading pages, finding ISINs, parsing fees—that benefits more from parallelism than deep reasoning. Running 50 parallel fast-model calls beats 5 sequential smart-model calls for this workload. (This could be made configurable per-phase, but the two-tier split covers 90% of use cases without complexity.)
 
 ### LLM Providers
 

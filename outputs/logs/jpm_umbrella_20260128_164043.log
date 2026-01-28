@@ -1,0 +1,10 @@
+2026-01-28 16:40:43.652 [INFO] [16:40:43] Starting pipeline: jpm_umbrella.pdf
+2026-01-28 16:40:43.652 [INFO] 
+2026-01-28 16:40:43.652 [INFO] SKELETON (1 items)
+2026-01-28 16:40:43.653 [INFO]   [Skeleton] Found native TOC with 66 entries
+2026-01-28 16:40:43.653 [INFO]   [Skeleton] Built skeleton with 66 sections
+2026-01-28 16:40:43.653 [INFO]   Done: 66 sections from native TOC | [0.0s]
+2026-01-28 16:40:43.653 [INFO] 
+2026-01-28 16:40:43.653 [INFO] TABLESCAN (261 items)
+2026-01-28 16:40:43.665 [DEBU] [16:40:43] [1/261] (0%) page 1
+2026-01-28 16:40:51.070 [DEBU] [16:40:51] [51/261] (20%) page 51

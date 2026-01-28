@@ -232,9 +232,9 @@ async def extract_share_classes(
             break  # No more items found
 
         # Merge additional share classes (avoid duplicates by name)
-        existing_names = {normalize_fund_name(share_class.get("name", "")) for share_class in share_classes}
+        existing_names = {normalize_fund_name(extract_raw_value(share_class.get("name")) or "") for share_class in share_classes}
         for share_class in additional:
-            normalized = normalize_fund_name(share_class.get("name", ""))
+            normalized = normalize_fund_name(extract_raw_value(share_class.get("name")) or "")
             if normalized and normalized not in existing_names:
                 share_classes.append(share_class)
                 existing_names.add(normalized)

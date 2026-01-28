@@ -1,12 +1,22 @@
 """LLM client for the extraction pipeline.
 
-Provides a deep interface for LLM calls that absorbs boilerplate:
+Provides a unified interface for LLM calls that absorbs boilerplate:
 - Message building
 - Cost tracking integration
 - JSON parsing with error handling
 - Retry and fallback via litellm Router
 
-This replaces the repeated pattern found in 15+ agent functions:
+Why does this exist? Before it did, every agent function had the same 8 lines
+of setup code: build messages, call router, track cost, parse JSON. This was
+copy-pasted across 15+ files. When we needed to add retry logic or change the
+response format, we had to update 15 places. This client centralizes that
+boilerplate. It's not clever—it's just DRY (Don't Repeat Yourself).
+
+(This could have been a simple function instead of a class. We made it a class
+so you can create one client and reuse it across multiple calls within an agent,
+which reads cleaner than passing cost_tracker to every function call.)
+
+The pattern this replaces:
     messages = [{"role": "system", ...}, {"role": "user", ...}]
     response = await router.acompletion(...)
     if cost_tracker: cost_tracker.record(...)

@@ -1,0 +1,126 @@
+2026-01-28 16:24:09.027 [INFO] [16:24:09] Starting pipeline: jpm_umbrella.pdf
+2026-01-28 16:24:09.027 [INFO] 
+2026-01-28 16:24:09.027 [INFO] SKELETON (1 items)
+2026-01-28 16:24:09.028 [INFO]   [Skeleton] Found native TOC with 66 entries
+2026-01-28 16:24:09.028 [INFO]   [Skeleton] Built skeleton with 66 sections
+2026-01-28 16:24:09.028 [INFO]   Done: 66 sections from native TOC | [0.0s]
+2026-01-28 16:24:09.028 [INFO] 
+2026-01-28 16:24:09.028 [INFO] TABLESCAN (261 items)
+2026-01-28 16:24:09.045 [DEBU] [16:24:09] [1/261] (0%) page 1
+2026-01-28 16:24:16.712 [DEBU] [16:24:16] [51/261] (20%) page 51
+2026-01-28 16:24:23.670 [DEBU] [16:24:23] [101/261] (39%) page 101
+2026-01-28 16:24:29.825 [DEBU] [16:24:29] [151/261] (58%) page 151
+2026-01-28 16:24:36.273 [DEBU] [16:24:36] [201/261] (77%) page 201
+2026-01-28 16:24:43.299 [DEBU] [16:24:43] [251/261] (96%) page 251
+2026-01-28 16:24:44.814 [INFO]   [TableScan] Found 85 tables on 261 pages
+2026-01-28 16:24:44.814 [INFO]   [ExternalRefScan] Scanning 261 pages for external references
+2026-01-28 16:24:44.821 [INFO]   [ExternalRefScan] Text proximity: isin -> KIID (page 3)
+2026-01-28 16:24:44.871 [INFO]   [ExternalRefScan] Detected 1 external field(s): ['isin']
+2026-01-28 16:24:44.871 [INFO]   [ExternalRefScan]   Table detection: 0, Text proximity: 1
+2026-01-28 16:24:44.871 [INFO]   Done: 1 refs, 1 fields external | [35.8s]
+2026-01-28 16:24:44.872 [INFO]   [Exploration] Native TOC: 66 entries (used for cross-ref context)
+2026-01-28 16:24:44.872 [INFO]   [Exploration] Adaptive chunking: reduced from 30 to 20 pages for 261-page document
+2026-01-28 16:24:44.872 [INFO]   [Exploration] Exploring 261 pages in 14 chunks of 20 pages
+2026-01-28 16:24:44.872 [INFO] 
+2026-01-28 16:24:44.872 [INFO] EXPLORATION (14 items, gpt-4o)
+2026-01-28 16:25:19.606 [INFO]   [1/14] pages 81-100 (34.7s)
+2026-01-28 16:25:22.439 [INFO]   [2/14] pages 21-40 (37.6s)
+2026-01-28 16:25:24.927 [INFO]   [3/14] pages 41-60 (40.1s)
+2026-01-28 16:25:38.876 [INFO]   [4/14] pages 1-20 (54.0s)
+2026-01-28 16:26:06.020 [INFO]   [5/14] pages 61-80 (81.1s)
+2026-01-28 16:26:07.308 [INFO]   [6/14] pages 101-120 (82.4s)
+2026-01-28 16:26:10.206 [INFO]   [7/14] pages 121-140 (85.3s)
+2026-01-28 16:26:14.895 [INFO]   [8/14] pages 141-160 (90.0s)
+2026-01-28 16:26:22.958 [INFO]   [9/14] pages 161-180 (98.1s)
+2026-01-28 16:26:27.101 [INFO]   [10/14] pages 261-261 (102.2s)
+2026-01-28 16:26:43.822 [INFO]   [11/14] pages 221-240 (118.9s)
+2026-01-28 16:26:44.612 [INFO]   [12/14] pages 181-200 (119.7s)
+2026-01-28 16:26:46.280 [INFO]   [13/14] pages 201-220 (121.4s)
+2026-01-28 16:27:00.452 [INFO]   [14/14] pages 241-260 (135.6s)
+2026-01-28 16:27:00.455 [INFO]   [Exploration] Cross-references: resolved 5/12 internal refs
+2026-01-28 16:27:00.459 [INFO]   [Exploration] Knowledge graph populated: 200 findings, 58 external refs, inventory: 38 present, 9 external
+2026-01-28 16:27:00.459 [INFO]   [Exploration] KG-RAG graph: 139 entities, 131 relations
+2026-01-28 16:27:00.459 [INFO]   Done: 14 explorers completed | funds_found=82, tables_found=80, failed=0, toc_source=native | [135.6s]
+2026-01-28 16:27:00.459 [INFO] 
+2026-01-28 16:27:00.459 [INFO] ENTITYRESOLUTION (1 items, gpt-4o-mini)
+2026-01-28 16:27:00.459 [INFO]   [EntityResolution] Extracted 82 fund mentions from exploration
+2026-01-28 16:27:00.459 [INFO]   [EntityResolution] Using 23 canonical funds from TOC (authoritative)
+2026-01-28 16:27:00.462 [DEBU] [16:27:00] [EntityResolution] Unmatched exploration mentions (not in TOC): ['JPMORGAN INVESTMENT FUNDS - GLOBAL MULTI-ASSET GROWTH SUSTAINABLE FUND']
+2026-01-28 16:27:00.463 [INFO]   [EntityResolution] Formed 23 clusters from 82 mentions
+2026-01-28 16:27:00.485 [DEBU] Entity merged: 'US Select Equity Fund' → 'Europe Select Equity Fund'
+2026-01-28 16:27:00.487 [DEBU] Entity merged: 'Dynamic Multi-Asset Fund' → 'Dynamic Multi-Asset Fund'
+2026-01-28 16:27:00.489 [DEBU] Entity merged: 'Global Balanced Fund' → 'Global Balanced Fund'
+2026-01-28 16:27:00.491 [DEBU] Entity merged: 'Global Income Fund' → 'Global Income Fund'
+2026-01-28 16:27:00.493 [DEBU] Entity merged: 'Global Income Conservative Fund' → 'Global Income Conservative Fund'
+2026-01-28 16:27:00.495 [DEBU] Entity merged: 'Global Income ESG Fund' → 'Global Income ESG Fund'
+2026-01-28 16:27:00.497 [DEBU] Entity merged: 'Global Macro Fund' → 'Global Macro Fund'
+2026-01-28 16:27:00.499 [DEBU] Entity merged: 'Global Macro Opportunities Fund' → 'Global Macro Opportunities Fund'
+2026-01-28 16:27:00.501 [DEBU] Entity merged: 'Global Macro Sustainable Fund' → 'Global Macro Sustainable Fund'
+2026-01-28 16:27:00.503 [DEBU] Entity merged: 'US Multi-Asset High Income Fund' → 'US Multi-Asset High Income Fund'
+2026-01-28 16:27:00.506 [DEBU] Entity merged: 'Global Convertibles Conservative Fund' → 'Global Convertibles Conservative Fund'
+2026-01-28 16:27:00.509 [DEBU] Entity merged: 'Global Short Duration Corporate Bond Sustainable Fund' → 'Global Short Duration Corporate Bond Sustainable Fund'
+2026-01-28 16:27:00.511 [DEBU] Entity merged: 'Global High Yield Bond Fund' → 'Global High Yield Bond Fund'
+2026-01-28 16:27:00.513 [DEBU] Entity merged: 'Income Opportunity Fund' → 'Income Opportunity Fund'
+2026-01-28 16:27:00.514 [DEBU] Entity merged: 'US Bond Fund' → 'US Bond Fund'
+2026-01-28 16:27:00.517 [DEBU] Entity merged: 'Coutts Diversifying Alternatives Multi-Manager Fund' → 'Coutts Diversifying Alternatives Multi-Manager Fund'
+2026-01-28 16:27:00.517 [INFO]   Done: 23 canonical funds | mentions=82, clusters=23, merged=44, filtered=0 | [0.1s]
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 1: Europe Select Equity Fund (conf: 1.00) (variants: ['Europe Select Equity Fund', 'JPMorgan Investment Funds - Europe Select Equity Fund', 'JPMORGAN INVESTMENT FUNDS - EUROPE SELECT EQUITY FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 2: Europe Strategic Dividend Fund (conf: 1.00) (variants: ['Europe Strategic Dividend Fund', 'JPMorgan Investment Funds - Europe Strategic Dividend Fund', 'JPMORGAN INVESTMENT FUNDS - EUROPE STRATEGIC DIVIDEND FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 3: Global Core Equity Fund (conf: 1.00) (variants: ['Global Core Equity Fund', 'JPMorgan Investment Funds - Global Core Equity Fund', 'JPMORGAN INVESTMENT FUNDS - GLOBAL CORE EQUITY FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 4: Global Dividend Fund (conf: 1.00) (variants: ['Global Dividend Fund', 'JPMorgan Investment Funds - Global Dividend Fund', 'JPMORGAN INVESTMENT FUNDS - GLOBAL DIVIDEND FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 5: Global Select Equity Fund (conf: 1.00) (variants: ['Global Select Equity Fund', 'JPMorgan Investment Funds - Global Select Equity Fund', 'JPMORGAN INVESTMENT FUNDS - GLOBAL SELECT EQUITY FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 6: Japan Sustainable Equity Fund (conf: 1.00) (variants: ['Japan Sustainable Equity Fund', 'JPMorgan Investment Funds - Japan Sustainable Equity Fund', 'JPMORGAN INVESTMENT FUNDS - JAPAN SUSTAINABLE EQUITY FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 7: Japan Strategic Value Fund (conf: 1.00) (variants: ['Japan Strategic Value Fund', 'JPMorgan Investment Funds - Japan Strategic Value Fund', 'JPMORGAN INVESTMENT FUNDS - JAPAN STRATEGIC VALUE FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 8: US Select Equity Fund (conf: 1.00) (variants: ['US Select Equity Fund', 'JPMorgan Investment Funds - US Select Equity Fund', 'JPMORGAN INVESTMENT FUNDS - US SELECT EQUITY FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 9: Dynamic Multi-Asset Fund (conf: 1.00) (variants: ['Dynamic Multi-Asset Fund', 'JPMorgan Investment Funds - Dynamic Multi-Asset Fund', 'JPMORGAN INVESTMENT FUNDS - DYNAMIC MULTI-ASSET FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   Fund 10: Global Balanced Fund (conf: 1.00) (variants: ['Global Balanced Fund', 'JPMorgan Investment Funds - Global Balanced Fund', 'JPMORGAN INVESTMENT FUNDS - GLOBAL BALANCED FUND'])
+2026-01-28 16:27:00.517 [INFO]   [EntityResolution]   ... and 13 more funds
+2026-01-28 16:27:00.517 [INFO] 
+2026-01-28 16:27:00.517 [INFO] LOGIC (1 items, aggregation (no LLM))
+2026-01-28 16:27:00.517 [INFO]   [Logic] Aggregating 14 exploration reports (no LLM call)
+2026-01-28 16:27:00.517 [INFO]   [Logic] ISIN strategy: external
+2026-01-28 16:27:00.517 [INFO]   [Logic] Fee strategy: consolidated_table
+2026-01-28 16:27:00.517 [INFO]   [Logic] Note: ISINs are documented in KIID, not in this prospectus
+2026-01-28 16:27:00.517 [INFO]   [Logic] Note: Fee table found on pages [6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 232, 233, 234, 235, 236]
+2026-01-28 16:27:00.517 [INFO]   [Logic] Note: External references: swing_pricing, risk_profile, performance, esg_policy, sustainability_preferences, exclusions_policy, unknown, conflicts_of_interest, investment_managers, sub_custodians, isin
+2026-01-28 16:27:00.517 [INFO]   Done: isin=external, fee=consolidated_table | cross_refs=12 | [0.0s]
+2026-01-28 16:27:00.517 [INFO] 
+2026-01-28 16:27:00.517 [INFO] PLANNING (1 items, gpt-4o)
+2026-01-28 16:27:00.517 [INFO]   [Planning] Synthesizing 14 exploration reports...
+2026-01-28 16:27:00.517 [INFO]   [Planning] Using 23 canonical funds from EntityResolution
+2026-01-28 16:27:45.412 [INFO]   [Planning] Plan created for 24 funds
+2026-01-28 16:27:45.412 [INFO]   [Planning] Broadcast tables: ['share_class', 'fee']
+2026-01-28 16:27:45.412 [WARN] Planner umbrella pages span 261 pages (80%+ of 261-page document), rejecting as likely planner bug.
+2026-01-28 16:27:45.412 [INFO] Exploration found 32 umbrella pages, truncating to 30
+2026-01-28 16:27:45.414 [INFO]   [Planning] Updated 44 fund entities to canonical names in knowledge graph
+2026-01-28 16:27:45.414 [INFO]   Done: JPMorgan Investment Funds | funds=24, with_pages=24, broadcast_tables=2 | [44.9s]
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 1: Europe Select Equity Fund (p5-6)
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 2: Europe Strategic Dividend Fund (p7-8)
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 3: Global Core Equity Fund (p9-10)
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 4: Global Dividend Fund (p11-12)
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 5: Global Select Equity Fund (p13-14)
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 6: Japan Sustainable Equity Fund (p15-16)
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 7: Japan Strategic Value Fund (p17-18)
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 8: US Select Equity Fund (p19-20)
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 9: Dynamic Multi-Asset Fund (p21-22)
+2026-01-28 16:27:45.414 [INFO]   [Planning] Fund 10: Global Balanced Fund (p23-24)
+2026-01-28 16:27:45.414 [INFO]   [Planning] ... and 14 more funds
+2026-01-28 16:27:45.414 [INFO] 
+2026-01-28 16:27:45.414 [INFO] UMBRELLA (1 items, gpt-4o)
+2026-01-28 16:27:45.414 [DEBU] Matched constraint sections: ['Investment Restrictions and Powers (59-70)']
+2026-01-28 16:27:45.414 [INFO] Found 12 constraint pages from TOC: 59-70
+2026-01-28 16:27:45.415 [INFO] Umbrella page plan: UmbrellaPagePlan(source=toc, entity=20 pages, constraint=12 pages, ~24,000 tokens)
+2026-01-28 16:27:45.415 [INFO]   [Extraction] Umbrella page plan: UmbrellaPagePlan(source=toc, entity=20 pages, constraint=12 pages, ~24,000 tokens)
+2026-01-28 16:27:45.415 [INFO]   [Extraction] Pass 1: Entity info from 20 pages
+2026-01-28 16:27:45.487 [INFO]   [Extraction] Entity text: 95071 chars
+2026-01-28 16:29:29.852 [INFO]   [Extraction] Pass 2: Constraints from 12 TOC-guided pages
+2026-01-28 16:29:29.896 [INFO]   [Extraction] Constraint text: 45348 chars
+2026-01-28 16:29:44.048 [INFO]   [Extraction] Running critic verification
+2026-01-28 16:31:02.669 [INFO]   [Extraction] Critic confidence: 50%
+2026-01-28 16:31:02.669 [INFO]   Done: JPMorgan Investment Funds | [197.3s]
+2026-01-28 16:31:02.672 [INFO]   [Extraction] Generated 24 fund recipes
+2026-01-28 16:31:02.672 [INFO]   [Extraction] Broadcast tables to parse: ['fee']
+2026-01-28 16:31:02.673 [INFO]   [Extraction] Using pre-scanned fee: 243 rows
+2026-01-28 16:31:02.673 [INFO] 
+2026-01-28 16:31:02.673 [INFO] FUND EXTRACTION (RECIPE) (24 items, gpt-4o-mini)
+2026-01-28 16:35:00.510 [ERRO] [16:35:00] ERROR: [Extraction] [Global Core Equity Fund] Recipe extraction failed: 'dict' object has no attribute 'lower'

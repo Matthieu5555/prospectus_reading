@@ -1,10 +1,19 @@
 """Pipeline orchestrator — runs every phase of the extraction pipeline in order.
 
 Phases are separate classes so each one can be tested, retried, and reasoned
-about in isolation.  Between phases, data flows through a shared PipelineState
+about in isolation. Between phases, data flows through a shared PipelineState
 object (see phase_base.py) which acts as a typed mailbox: one phase writes its
-output, the next phase reads it.  This keeps memory usage bounded because each
+output, the next phase reads it. This keeps memory usage bounded because each
 phase can drop intermediate data after handing off results.
+
+Why shared state instead of return values? Two reasons. First, memory: a 400-page
+prospectus with parallel exploration generates megabytes of intermediate data.
+If each phase returned its output, we'd keep all of it in memory until the final
+assembly. Shared state lets phases write results and then forget their working
+data. Second, debugging: you can inspect state between any two phases without
+reconstructing call chains. Just pause after Planning and print `state.plan`.
+(This could have been done with generators or a message-passing architecture,
+but explicit mutable state is simpler to reason about for a linear pipeline.)
 
 High-level flow:
   Skeleton → TableScan → ExternalRefScan → Exploration → EntityResolution

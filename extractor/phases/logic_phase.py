@@ -218,12 +218,20 @@ class LogicPhase(PhaseRunner[LogicResult]):
         for notes in exploration_notes:
             for xref in notes.cross_references or []:
                 if xref.target_page:
-                    cross_refs.append(CrossReferenceResolution(
-                        reference_text=xref.text,
-                        target_pages=[xref.target_page],
-                        field_hint=xref.field_hint,
-                        source_page=xref.source_page,
-                    ))
+                    # Handle case where LLM returned a list instead of single int
+                    # (defensive: the model says int|None but LLMs sometimes return lists)
+                    if isinstance(xref.target_page, list):
+                        target_pages = [p for p in xref.target_page if isinstance(p, int)]
+                    else:
+                        target_pages = [xref.target_page]
+
+                    if target_pages:  # Only add if we have valid pages
+                        cross_refs.append(CrossReferenceResolution(
+                            reference_text=xref.text,
+                            target_pages=target_pages,
+                            field_hint=xref.field_hint,
+                            source_page=xref.source_page,
+                        ))
 
         return cross_refs
 

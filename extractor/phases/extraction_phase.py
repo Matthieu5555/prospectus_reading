@@ -7,14 +7,23 @@ Two extraction modes exist because prospectus layouts vary widely:
 2. **Legacy mode**: two-pass LLM extraction with a pilot fund for learning.
    Kept as a fallback when DocumentLogic is unavailable.
 
-The phase orchestrates umbrella extraction, broadcast-table pre-parsing,
-parallel per-fund extraction, and optional critic verification.
+The phase orchestrates umbrella extraction (two-pass for large docs),
+broadcast-table pre-parsing, parallel per-fund extraction, and optional
+critic verification.
+
+**Two-Pass Umbrella Extraction:**
+Solves token overflow on large documents (261+ pages) by splitting extraction:
+- Pass 1: Entity info (name, depositary, management_company) from bounded
+  intro+outro pages (~20 pages max)
+- Pass 2: Constraints (investment restrictions, leverage) using TOC-guided
+  sections or search-based fallback
 """
 
 import asyncio
+import logging
 from dataclasses import dataclass, field
 
-from extractor.core.config import ExtractionConfig as ExtractConfigConstants
+from extractor.core.config import ExtractionConfig as ExtractConfigConstants, UmbrellaConfig
 from extractor.phases.phase_base import PhaseRunner
 from extractor.pydantic_models import CriticResult
 from extractor.pydantic_models.recipe_models import FundExtractionRecipe
@@ -33,9 +42,13 @@ from extractor.core import (
     TableExtractor, ParsedTable,
     KnowledgeConsolidator,
     SourceType,
+    select_umbrella_pages,
+    check_token_limit,
 )
 from extractor.core.field_strategy import KnowledgeContext
 from extractor.core.value_helpers import get_raw_value
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -160,76 +173,93 @@ class ExtractionPhase(PhaseRunner[ExtractionResult]):
         )
 
     async def _extract_umbrella(self):
-        """Extract umbrella-level information.
+        """Extract umbrella-level information using two-pass approach.
 
         Uses smart_model for umbrella extraction since this is a high-impact
         phase - umbrella data propagates to all funds.
+
+        **Two-Pass Strategy (for large documents):**
+        1. Pass 1: Entity info (name, depositary, management_company) from
+           bounded intro+outro pages (~20 pages max, always safe)
+        2. Pass 2: Constraints (investment restrictions, leverage) from
+           TOC-guided sections or search-based fallback
+
+        This guarantees we never exceed token limits while maximizing coverage.
         """
         plan = self.context.plan
         self.logger.start_phase("Umbrella", 1, self.context.smart_model)
 
         page_count = self.context.pdf.page_count
 
-        # Read beginning + end pages (service providers often at end)
-        begin_pages = plan.umbrella_pages or [1, 2, 3]
+        # Get skeleton for TOC-guided constraint extraction
+        skeleton = getattr(self.context.state, 'skeleton', None)
 
-        # Clamp begin_pages to actual document size
-        begin_start = max(1, begin_pages[0])
-        begin_end = min(begin_pages[-1], page_count)
+        # Compute smart page plan using two-pass approach
+        page_plan = select_umbrella_pages(skeleton, page_count)
+        self.log(f"Umbrella page plan: {page_plan.summary()}")
 
-        self.log(f"Reading intro pages: {begin_start}-{begin_end}")
-        pages_text = self.context.pdf.read_pages(begin_start, begin_end)
+        # =========================================================
+        # Pass 1: Entity info (always bounded, never overflows)
+        # =========================================================
+        entity_pages = page_plan.entity_pages
+        self.log(f"Pass 1: Entity info from {len(entity_pages)} pages")
 
-        # Only read end pages if document is large enough and there's no overlap
-        # We want at least 5 pages gap between begin and end sections
-        end_start = page_count - 15
-        min_gap = 5
-
-        if end_start > begin_end + min_gap and page_count > 20:
-            self.log(f"Reading service provider pages: {end_start}-{page_count}")
-            end_text = self.context.pdf.read_pages(end_start, page_count)
-            pages_text = pages_text + "\n\n" + end_text
-        elif page_count <= 20:
-            # Small document - just read the whole thing for umbrella
-            if begin_end < page_count:
-                self.log(f"Small doc - reading remaining pages: {begin_end + 1}-{page_count}")
-                end_text = self.context.pdf.read_pages(begin_end + 1, page_count)
-                pages_text = pages_text + "\n\n" + end_text
-
-        self.log(f"Total text: {len(pages_text)} chars")
+        entity_text = self._read_page_blocks(entity_pages)
+        self.log(f"Entity text: {len(entity_text)} chars")
 
         try:
-            self.context.umbrella_data = await extract_umbrella(
-                pages_text,
+            # Extract entity info (name, depositary, management_company, etc.)
+            entity_data = await extract_umbrella(
+                entity_text,
                 model=self.context.smart_model,
                 cost_tracker=self.context.cost_tracker,
             )
-
-            # Critic verification
-            if self.context.use_critic:
-                self.log("Running critic verification")
-                self.context.umbrella_data, critic_result = await verify_and_correct(
-                    "umbrella",
-                    plan.umbrella_name,
-                    self.context.umbrella_data,
-                    pages_text,
-                    model=self.context.critic_model,
-                    cost_tracker=self.context.cost_tracker,
-                )
-                self.context.critic_results.append(critic_result)
-                self.log(f"Critic confidence: {critic_result.overall_confidence:.0%}")
+            self.context.umbrella_data = entity_data
 
         except Exception as e:
-            self.log(f"Umbrella extraction failed: {e}", "error")
+            self.log(f"Entity extraction failed: {e}", "error")
             self.context.umbrella_data = {
                 "name": {
                     "value": plan.umbrella_name,
                     "source_page": None,
                     "source_quote": None,
-                    "rationale": "Umbrella name from plan (extraction failed)",
+                    "rationale": "Umbrella name from plan (entity extraction failed)",
                     "confidence": 1.0,
                 }
             }
+
+        # =========================================================
+        # Pass 2: Constraints (TOC-guided or search fallback)
+        # =========================================================
+        constraint_data = await self._extract_umbrella_constraints(
+            page_plan.constraint_pages,
+            skeleton,
+            page_count,
+        )
+
+        # Merge constraint data into umbrella data
+        # (Only fill fields that are NOT_FOUND or missing in entity extraction)
+        for field_name, value in constraint_data.items():
+            existing = self.context.umbrella_data.get(field_name)
+            if not existing or is_not_found(existing):
+                self.context.umbrella_data[field_name] = value
+
+        # =========================================================
+        # Critic verification (on combined data)
+        # =========================================================
+        if self.context.use_critic:
+            # Use entity text for critic (smaller, more focused)
+            self.log("Running critic verification")
+            self.context.umbrella_data, critic_result = await verify_and_correct(
+                "umbrella",
+                plan.umbrella_name,
+                self.context.umbrella_data,
+                entity_text,
+                model=self.context.critic_model,
+                cost_tracker=self.context.cost_tracker,
+            )
+            self.context.critic_results.append(critic_result)
+            self.log(f"Critic confidence: {critic_result.overall_confidence:.0%}")
 
         # Ensure name is set with provenance
         existing_name = self.context.umbrella_data.get("name")
@@ -246,6 +276,151 @@ class ExtractionPhase(PhaseRunner[ExtractionResult]):
         # Log umbrella result (extract raw value since name might be provenance dict)
         umbrella_name = get_raw_value(self.context.umbrella_data.get("name"), "Unknown")
         self.logger.phase_result("Umbrella", umbrella_name)
+
+    async def _extract_umbrella_constraints(
+        self,
+        toc_constraint_pages: list[int],
+        skeleton,
+        total_pages: int,
+    ) -> dict:
+        """Extract umbrella-level constraints using TOC-guided pages or search.
+
+        Args:
+            toc_constraint_pages: Pages from TOC matching constraint patterns.
+            skeleton: DocumentSkeleton for page resolution.
+            total_pages: Total document pages.
+
+        Returns:
+            Dict with constraint fields (investment_restrictions, leverage, etc.)
+        """
+        from extractor.core.llm_client import LLMClient
+        from extractor.prompts.reader_prompt import UMBRELLA_CONSTRAINT_PROMPT
+        from extractor.pydantic_models.constraints import CONSTRAINT_FIELD_DESCRIPTIONS
+
+        # Decide which pages to read
+        if toc_constraint_pages:
+            # TOC-guided: use pre-identified constraint sections
+            pages_to_read = toc_constraint_pages
+            self.log(f"Pass 2: Constraints from {len(pages_to_read)} TOC-guided pages")
+        else:
+            # Search fallback: find constraint-related pages via pattern search
+            pages_to_read = await self._find_constraint_pages_via_search()
+            if pages_to_read:
+                self.log(f"Pass 2: Constraints from {len(pages_to_read)} search-found pages")
+            else:
+                self.log("Pass 2: No constraint pages found, skipping", "warning")
+                return {}
+
+        # Token limit check
+        is_safe, estimated_tokens = check_token_limit(len(pages_to_read))
+        if not is_safe:
+            # Truncate to safe limit
+            max_safe_pages = UmbrellaConfig.MAX_UMBRELLA_INPUT_TOKENS * UmbrellaConfig.CHARS_PER_TOKEN // 3000
+            self.log(
+                f"Constraint pages ({len(pages_to_read)}) would exceed token limit "
+                f"(~{estimated_tokens:,} tokens), truncating to {max_safe_pages}",
+                "warning"
+            )
+            pages_to_read = pages_to_read[:max_safe_pages]
+
+        # Read constraint pages
+        constraint_text = self._read_page_blocks(pages_to_read)
+        self.log(f"Constraint text: {len(constraint_text)} chars")
+
+        if not constraint_text.strip():
+            return {}
+
+        # Build fields description for prompt
+        constraint_fields = [
+            "investment_restrictions",
+            "leverage_policy",
+            "derivatives_usage",
+            "borrowing_limit",
+        ]
+        fields_desc = "\n".join(
+            f"- {field}: {CONSTRAINT_FIELD_DESCRIPTIONS.get(field, field)}"
+            for field in constraint_fields
+        )
+
+        # Extract constraints
+        client = LLMClient(cost_tracker=self.context.cost_tracker)
+        try:
+            response = await client.complete(
+                system_prompt=UMBRELLA_CONSTRAINT_PROMPT.format(fields_desc=fields_desc),
+                user_prompt=f"Extract umbrella-level constraints from:\n\n{constraint_text}",
+                model=self.context.smart_model,
+                agent="umbrella_constraints",
+            )
+            return response.content
+        except Exception as e:
+            self.log(f"Constraint extraction failed: {e}", "error")
+            return {}
+
+    async def _find_constraint_pages_via_search(self) -> list[int]:
+        """Find constraint-related pages using pattern search.
+
+        Fallback when no TOC sections match constraint patterns.
+
+        Returns:
+            List of page numbers containing constraint content.
+        """
+        search_context = self.context.create_search_context()
+
+        # Search for constraint-related patterns
+        all_hits = []
+        for category in ["restriction", "leverage", "derivative"]:
+            hits = search_context.search_patterns(category, max_results=15)
+            all_hits.extend(hits)
+
+        if not all_hits:
+            return []
+
+        # Dedupe and sort by page
+        pages = sorted(set(hit["page"] for hit in all_hits))
+
+        # Cap at configured limit
+        max_pages = UmbrellaConfig.CONSTRAINT_SEARCH_FALLBACK_PAGES
+        if len(pages) > max_pages:
+            pages = pages[:max_pages]
+
+        return pages
+
+    def _read_page_blocks(self, pages: list[int]) -> str:
+        """Read pages in contiguous blocks for efficiency.
+
+        Groups consecutive pages and reads them as ranges to minimize
+        PDF reader calls.
+
+        Args:
+            pages: List of page numbers (1-indexed).
+
+        Returns:
+            Concatenated text from all pages.
+        """
+        if not pages:
+            return ""
+
+        sorted_pages = sorted(pages)
+        blocks: list[tuple[int, int]] = []
+        start = sorted_pages[0]
+        end = sorted_pages[0]
+
+        for page in sorted_pages[1:]:
+            if page == end + 1:
+                end = page
+            else:
+                blocks.append((start, end))
+                start = page
+                end = page
+        blocks.append((start, end))
+
+        # Read each block
+        texts = []
+        for block_start, block_end in blocks:
+            text = self.context.pdf.read_pages(block_start, block_end)
+            texts.append(text)
+
+        return "\n\n".join(texts)
 
     async def _extract_funds_with_recipes(
         self,

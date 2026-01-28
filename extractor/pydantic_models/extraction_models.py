@@ -8,6 +8,46 @@ from typing import Literal, Any
 from pydantic import BaseModel, Field
 
 
+# =============================================================================
+# LLM-based TOC Extraction (Skeleton Phase Fallback)
+# =============================================================================
+
+class LLMTOCSection(BaseModel):
+    """A section detected in the document's table of contents by LLM."""
+
+    title: str = Field(description="Section title as it appears in the document")
+    page: int = Field(description="Page number where section starts (1-indexed)")
+    level: int = Field(default=1, ge=1, le=5, description="Nesting level: 1=top, 2=subsection, etc.")
+
+
+class LLMExtractedTOC(BaseModel):
+    """Table of contents extracted by LLM when native PDF TOC is missing.
+
+    Used as a fallback in the skeleton phase when the PDF lacks embedded
+    TOC metadata (bookmarks). The LLM reads the first ~10 pages and extracts
+    document structure.
+    """
+
+    sections: list[LLMTOCSection] = Field(
+        default_factory=list,
+        description="List of sections found in the document"
+    )
+    document_title: str | None = Field(
+        default=None,
+        description="Main document title if found"
+    )
+    confidence: float = Field(
+        default=0.5,
+        ge=0.0,
+        le=1.0,
+        description="Extraction confidence (0.0-1.0)"
+    )
+    notes: str = Field(
+        default="",
+        description="Any issues or ambiguities encountered during extraction"
+    )
+
+
 # Type Alias for LLM Output
 
 # Raw LLM output can be in various formats:

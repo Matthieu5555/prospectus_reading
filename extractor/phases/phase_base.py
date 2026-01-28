@@ -77,7 +77,21 @@ class ExtractionConfig:
 class PipelineState:
     """Mutable state that accumulates during the pipeline.
 
-    Each field is written by exactly one phase and read by downstream phases:
+    Think of this as the pipeline's working memory. As each phase runs, it leaves
+    its results here for downstream phases to pick up—like stations on an assembly
+    line, each adding parts and assuming previous work is done.
+
+    The comments below say which phase writes each field. This matters because you
+    shouldn't read `plan` until Planning has run, or you'll get None. The type
+    hints help catch this at development time, but the real contract is: phases
+    run in order, and each phase trusts that previous phases did their job.
+
+    Why not just pass results as function arguments? Because the pipeline has 10
+    phases, and threading 10 return values through would be unwieldy. Shared state
+    is simpler for linear pipelines. (For a DAG-shaped pipeline with parallel
+    branches, you'd want something more structured—but this pipeline is linear.)
+
+    Field ownership (who writes, who reads):
     - exploration_notes: Written by Exploration, read by Logic/Planning/Assembly
     - document_logic: Written by Logic, read by Planning/Extraction
     - plan: Written by Planning, read by Extraction/Assembly
@@ -86,19 +100,19 @@ class PipelineState:
     - funds_data: Written by Extraction, read by Resolver/Assembly
     - critic_results: Written by Extraction (if critic enabled), read by Assembly
     - discovered_fields/schema_suggestions: Written by Extraction, read by Assembly
-    - errors: Accumulated by all phases
+    - errors: Accumulated by all phases (append-only)
     - knowledge: Written by Exploration/Extraction, read by Resolver/Assembly
 
-    Knowledge systems:
-    - ``knowledge`` (DocumentKnowledge): Exploration findings — page-level notes,
-      fund mentions, table descriptions, and external-reference annotations
-      discovered during the exploration phase.
-    - ``store`` (GraphStore): Entity graph — canonical fund entities, their
-      relationships (share-class → fund, fund → umbrella), and alias mappings
-      built during entity resolution.
-    - ``errors`` (PipelineErrors): Structured error log — every warning / error
-      raised by any phase, categorised by ErrorCategory and ErrorSeverity for
-      downstream reporting and debugging.
+    Knowledge systems (these deserve explanation because they overlap):
+    - ``knowledge`` (DocumentKnowledge): What we learned about the document during
+      exploration—page-level notes, fund mentions, table locations, external refs.
+      This is "what's in the PDF" knowledge.
+    - ``store`` (GraphStore): The entity graph we're building—canonical fund names,
+      share class relationships, alias mappings. This is "what we're extracting"
+      knowledge.
+    - ``errors`` (PipelineErrors): Structured error log categorized by severity.
+      Phases append errors here rather than raising exceptions, so the pipeline
+      can continue and report all problems at the end.
     """
 
     # Phase outputs (each written by one phase)

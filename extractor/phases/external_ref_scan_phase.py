@@ -38,6 +38,21 @@ class ExternalRefResult:
 # =============================================================================
 # Vocabulary for proximity-based detection
 # =============================================================================
+#
+# These dictionaries encode domain knowledge about how prospectuses refer to
+# external documents. They're hand-curated from analyzing ~20 real prospectuses
+# across different asset managers and jurisdictions.
+#
+# If you're adding support for a new document type or jurisdiction (e.g., US
+# mutual funds, Asian markets), this is where you'd add keywords. The structure
+# maps raw text patterns to canonical names, so "TER," "ongoing charges," and
+# "OCF" all resolve to the same `ongoing_charges` field.
+#
+# (This could have been a ML classifier trained on labeled examples, but the
+# vocabulary is small enough that hand-curation is faster and more transparent.
+# You can see exactly what patterns are matched. A classifier would be a black
+# box that might miss obvious patterns or match spurious ones.)
+# =============================================================================
 
 # Field keywords - map to canonical field names
 FIELD_KEYWORDS: dict[str, list[str]] = {
@@ -49,6 +64,14 @@ FIELD_KEYWORDS: dict[str, list[str]] = {
     "exit_fee": ["exit fee", "exit charge", "redemption fee", "redemption charge"],
     "risk_profile": ["risk profile", "risk indicator", "risk level", "srri", "risk rating", "risk category"],
     "distribution_policy": ["distribution", "dividend", "income distribution"],
+    # Additional fields for better coverage
+    "benchmark": ["benchmark", "index", "reference index", "comparator", "performance comparator"],
+    "nav": ["nav", "net asset value", "nav per share", "unit price", "share price"],
+    "minimum_investment": ["minimum investment", "minimum subscription", "minimum initial", "investment minimum"],
+    "fund_size": ["fund size", "aum", "assets under management", "total assets", "net assets"],
+    "inception_date": ["inception", "launch date", "commencement date", "fund launch"],
+    "dealing_frequency": ["dealing", "valuation day", "dealing day", "subscription day", "redemption day"],
+    "volatility": ["volatility", "standard deviation", "sharpe ratio", "risk metrics"],
 }
 
 # Referral phrases that indicate redirection to another document
@@ -58,6 +81,13 @@ REFERRAL_PHRASES: list[str] = [
     "detailed in", "set out in", "specified in", "listed in", "shown in",
     "please contact", "contact", "upon request", "on request",
     "not included", "not disclosed", "not available", "not shown",
+    # Additional phrases for better coverage
+    "please see", "please refer", "kindly refer", "readers should refer",
+    "appendix", "annex", "schedule", "exhibit",
+    "full details", "further information", "more information", "additional information",
+    "available from", "provided by", "obtainable from", "can be obtained",
+    "separately disclosed", "published separately", "disclosed separately",
+    "investors should consult", "shareholders should refer",
 ]
 
 # External document names
@@ -68,21 +98,50 @@ EXTERNAL_DOCS: dict[str, str] = {
     "key investor information": "KIID",
     "key investor document": "KIID",
     "key information document": "KIID",
+    "priips": "KIID",
     # Annual Report variants
     "annual report": "Annual Report",
     "semi-annual report": "Annual Report",
     "semi annual report": "Annual Report",
+    "audited accounts": "Annual Report",
+    # Factsheet variants
+    "factsheet": "Factsheet",
+    "fund factsheet": "Factsheet",
+    "fact sheet": "Factsheet",
+    "monthly report": "Factsheet",
     # Other documents
     "supplement": "Supplement",
     "addendum": "Supplement",
+    "prospectus": "Prospectus",
+    "master prospectus": "Prospectus",
+    "base prospectus": "Prospectus",
+    "term sheet": "TermSheet",
+    "terms and conditions": "TermSheet",
+    # SFDR/regulatory
+    "sfdr": "SFDR",
+    "art. 6": "SFDR",
+    "art. 8": "SFDR",
+    "art. 9": "SFDR",
+    "article 6": "SFDR",
+    "article 8": "SFDR",
+    "article 9": "SFDR",
+    "sustainability disclosure": "SFDR",
+    "pre-contractual disclosure": "SFDR",
+    # Website variants
     "website": "Website",
     "www.": "Website",
     "http": "Website",
+    "investor portal": "Website",
+    "client portal": "Website",
+    "fund centre": "Website",
+    "fund center": "Website",
     # Not disclosed
     "upon request": "Upon Request",
     "on request": "Upon Request",
     "not disclosed": "Not Disclosed",
     "not available": "Not Disclosed",
+    "contact the administrator": "Upon Request",
+    "contact the management company": "Upon Request",
 }
 
 # Column name mappings for table detection
@@ -97,16 +156,35 @@ COLUMN_TO_FIELD: dict[str, str] = {
     "entry fee": "entry_fee",
     "entry charge": "entry_fee",
     "subscription fee": "entry_fee",
+    "initial charge": "entry_fee",
     "exit fee": "exit_fee",
     "exit charge": "exit_fee",
     "redemption fee": "exit_fee",
+    "redemption charge": "exit_fee",
     "ongoing charges": "ongoing_charges",
     "ongoing charge": "ongoing_charges",
     "ter": "ongoing_charges",
     "ocf": "ongoing_charges",
+    "total expense ratio": "ongoing_charges",
     "performance fee": "performance_fee",
     "currency": "currency",
+    "ccy": "currency",
+    "base currency": "currency",
     "distribution": "distribution_policy",
+    "distribution policy": "distribution_policy",
+    # Additional column mappings
+    "share class": "share_class_name",
+    "class name": "share_class_name",
+    "share class name": "share_class_name",
+    "inception": "inception_date",
+    "launch": "inception_date",
+    "launch date": "inception_date",
+    "inception date": "inception_date",
+    "minimum investment": "minimum_investment",
+    "min investment": "minimum_investment",
+    "minimum initial": "minimum_investment",
+    "srri": "risk_profile",
+    "risk indicator": "risk_profile",
 }
 
 
