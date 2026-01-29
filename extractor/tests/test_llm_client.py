@@ -132,19 +132,20 @@ class TestLLMClient:
         assert call_kwargs["messages"] == messages
 
     @pytest.mark.asyncio
-    async def test_invalid_json_raises_error(self, mock_router):
+    async def test_invalid_json_repaired(self, mock_router):
+        """Invalid JSON is repaired by json-repair instead of raising."""
         mock_router.acompletion.return_value = MagicMock(
-            choices=[MagicMock(message=MagicMock(content="not valid json"))],
+            choices=[MagicMock(message=MagicMock(content='{"key": "value"'))],
             usage=MagicMock(prompt_tokens=100, completion_tokens=50)
         )
         client = LLMClient()
-        with pytest.raises(json.JSONDecodeError):
-            await client.complete(
-                system_prompt="System",
-                user_prompt="User",
-                model="test-model",
-                agent="test",
-            )
+        result = await client.complete(
+            system_prompt="System",
+            user_prompt="User",
+            model="test-model",
+            agent="test",
+        )
+        assert result.content == {"key": "value"}
 
     @pytest.mark.asyncio
     async def test_custom_temperature(self, mock_router):

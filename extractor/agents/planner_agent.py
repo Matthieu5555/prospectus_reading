@@ -45,6 +45,76 @@ from extractor.pydantic_models.recipe_models import (
 from extractor.prompts.planner_prompt import PLANNER_SYSTEM_PROMPT, build_planner_prompt
 
 
+def _compress_exploration_notes(exploration_notes: list[ExplorationNotes]) -> str:
+    """Compress exploration notes to fit within LLM context limits.
+
+    The full JSON dump of 76 exploration notes for a 757-page document can
+    exceed 175k tokens (vs 128k context limit for gpt-4o). This function
+    produces a compact summary that preserves the information the planner
+    needs (fund names, page assignments, table locations) while dropping
+    verbose fields (full observations, descriptions, cross-reference text).
+
+    Returns:
+        Compact JSON string suitable for the planner prompt.
+    """
+    compressed = []
+    for note in exploration_notes:
+        entry: dict = {
+            "page_start": note.page_start,
+            "page_end": note.page_end,
+        }
+
+        if note.toc_pages:
+            entry["toc_pages"] = note.toc_pages
+        if note.umbrella_info_pages:
+            entry["umbrella_info_pages"] = note.umbrella_info_pages
+
+        # Funds: keep name, page, has_dedicated_section (drop nothing here, these are small)
+        if note.funds_mentioned:
+            entry["funds_mentioned"] = [
+                {"name": f.name, "page": f.page, "has_dedicated_section": f.has_dedicated_section}
+                for f in note.funds_mentioned
+            ]
+
+        # Tables: keep structure info, drop notes
+        if note.tables:
+            entry["tables"] = [
+                {
+                    "table_type": t.table_type,
+                    "page_start": t.page_start,
+                    "page_end": t.page_end,
+                    "columns": t.columns[:5] if t.columns else [],  # cap column list
+                    "has_fund_name_column": t.has_fund_name_column,
+                }
+                for t in note.tables
+            ]
+
+        # Cross-references: only keep internal refs with target pages (planner needs these)
+        internal_refs = [
+            {"source_page": cr.source_page, "target_page": cr.target_page, "field_hint": cr.field_hint}
+            for cr in note.cross_references
+            if not cr.is_external and cr.target_page
+        ]
+        if internal_refs:
+            entry["cross_references"] = internal_refs
+
+        # Page index: compress to one-line-per-page summary
+        # This is the biggest payload (~10 entries per explorer)
+        if note.page_index:
+            entry["page_index"] = [
+                {
+                    "page": p.page,
+                    "type": p.content_type,
+                    **({"fund": p.fund_name} if p.fund_name else {}),
+                }
+                for p in note.page_index
+            ]
+
+        compressed.append(entry)
+
+    return json.dumps(compressed, separators=(",", ":"))
+
+
 async def run_planner(
     exploration_notes: list[ExplorationNotes],
     total_pages: int,
@@ -82,7 +152,7 @@ async def run_planner(
             exploration_notes, use_llm=True, model=model, cost_tracker=cost_tracker
         )
 
-    notes_json = json.dumps([note.model_dump() for note in exploration_notes], indent=2)
+    notes_json = _compress_exploration_notes(exploration_notes)
 
     client = LLMClient(cost_tracker=cost_tracker)
 

@@ -3,8 +3,46 @@
 Tracks usage across the pipeline and calculates costs based on model pricing.
 """
 
+import logging
 from dataclasses import dataclass, field
 from typing import Any
+
+logger = logging.getLogger(__name__)
+
+# Fallback pricing per 1M tokens (USD) when litellm lookup fails.
+# Covers common OpenRouter models. Updated Jan 2025.
+_FALLBACK_PRICING: dict[str, tuple[float, float]] = {
+    # (input_cost_per_1M, output_cost_per_1M)
+    "openai/gpt-4o": (2.50, 10.00),
+    "openai/gpt-4o-mini": (0.15, 0.60),
+    "openai/gpt-4-turbo": (10.00, 30.00),
+    "anthropic/claude-3.5-sonnet": (3.00, 15.00),
+    "anthropic/claude-3-haiku": (0.25, 1.25),
+    "google/gemini-pro-1.5": (1.25, 5.00),
+}
+
+_warned_models: set[str] = set()
+
+
+def _normalize_model_name(model: str) -> str:
+    """Strip provider routing prefixes for pricing lookup.
+
+    LiteLLM's pricing database uses model names like 'gpt-4o-mini',
+    but OpenRouter passes 'openrouter/openai/gpt-4o-mini'.
+    """
+    # Strip openrouter/ prefix
+    if model.startswith("openrouter/"):
+        model = model[len("openrouter/"):]
+    return model
+
+
+def _fallback_cost(model: str, prompt_tokens: int, completion_tokens: int) -> float:
+    """Calculate cost from fallback pricing table."""
+    normalized = _normalize_model_name(model)
+    if normalized in _FALLBACK_PRICING:
+        input_rate, output_rate = _FALLBACK_PRICING[normalized]
+        return (prompt_tokens * input_rate + completion_tokens * output_rate) / 1_000_000
+    return 0.0
 
 
 @dataclass
@@ -22,15 +60,28 @@ class CallUsage:
 
     @property
     def cost(self) -> float:
-        """Calculate cost in USD using litellm's pricing database."""
+        """Calculate cost in USD using litellm's pricing database.
+
+        Falls back to hardcoded pricing for common models when litellm
+        doesn't recognize the model name (e.g., openrouter/ prefixed).
+        """
+        normalized = _normalize_model_name(self.model)
         try:
             from litellm import completion_cost
             return completion_cost(
-                model=self.model,
+                model=normalized,
                 prompt_tokens=self.prompt_tokens,
                 completion_tokens=self.completion_tokens,
             )
         except Exception:
+            # Try fallback pricing
+            fallback = _fallback_cost(self.model, self.prompt_tokens, self.completion_tokens)
+            if fallback > 0:
+                return fallback
+            # No pricing available - warn once per model
+            if self.model not in _warned_models:
+                _warned_models.add(self.model)
+                logger.warning(f"No pricing available for model '{self.model}', cost will show as $0")
             return 0.0
 
 

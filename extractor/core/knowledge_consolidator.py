@@ -31,6 +31,8 @@ if TYPE_CHECKING:
     from extractor.core.graph_store import GraphStore
     from extractor.core.cost_tracker import CostTracker
 
+from extractor.core.value_helpers import get_raw_value
+
 logger = logging.getLogger(__name__)
 
 
@@ -178,8 +180,8 @@ class KnowledgeConsolidator:
         # Take the most recent existing fact for comparison
         existing = existing_facts[-1]
 
-        if existing.value == value:
-            # Same value, just update confidence if higher
+        if get_raw_value(existing.value) == get_raw_value(value):
+            # Same value (possibly different provenance), just update confidence if higher
             if confidence > existing.confidence:
                 existing.confidence = confidence
                 existing.source_page = source_page or existing.source_page
@@ -209,7 +211,7 @@ class KnowledgeConsolidator:
 
         logger.info(
             f"Conflict resolved for {entity_key}.{field_name}: "
-            f"'{existing.value}' vs '{value}' → kept '{resolution.kept_value}' "
+            f"'{get_raw_value(existing.value)}' vs '{get_raw_value(value)}' → kept '{get_raw_value(resolution.kept_value)}' "
             f"({resolution.resolution.value})"
         )
 

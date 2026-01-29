@@ -533,7 +533,7 @@ class ExtractionPhase(PhaseRunner[ExtractionResult]):
                                             }
                                             # Record fact via consolidator (handles conflicts)
                                             await consolidator.add_fact(
-                                                f"share_class:{sc_name}",
+                                                f"share_class:{recipe.fund_name}:{sc_name}",
                                                 "isin",
                                                 row[isin_col],
                                                 source_page=isin_table.source_pages[0] if hasattr(isin_table, 'source_pages') else None,
@@ -566,7 +566,7 @@ class ExtractionPhase(PhaseRunner[ExtractionResult]):
                                             }
                                             # Record fact via consolidator (handles conflicts)
                                             await consolidator.add_fact(
-                                                f"share_class:{sc_name}",
+                                                f"share_class:{recipe.fund_name}:{sc_name}",
                                                 "management_fee",
                                                 row[fee_col],
                                                 source_page=fee_table.source_pages[0] if hasattr(fee_table, 'source_pages') else None,
@@ -618,13 +618,15 @@ class ExtractionPhase(PhaseRunner[ExtractionResult]):
                         )
                         self.context.critic_results.extend(critic_results)
 
-                    self.logger.tick(f"{recipe.fund_name[:30]} (T:{table_lookup_count})")
+                    self.logger.tick(f"{recipe.fund_name[:30]}")
                     return fund_data
 
                 except Exception as e:
                     self.log(f"[{recipe.fund_name}] Recipe extraction failed: {e}", "error")
+                    import json as _json
+                    error_cat = ErrorCategory.LLM_PARSE if isinstance(e, (_json.JSONDecodeError, ValueError)) else ErrorCategory.LLM_API
                     self.context.errors.add(ExtractionError(
-                        category=ErrorCategory.LLM_API,
+                        category=error_cat,
                         severity=ErrorSeverity.ERROR,
                         message=str(e),
                         phase="Fund Extraction (Recipe)",
@@ -863,19 +865,22 @@ class ExtractionPhase(PhaseRunner[ExtractionResult]):
             if not sc_name:
                 continue
 
-            # Register entity so facts aren't orphaned
+            # Register entity with fund-scoped key so facts aren't orphaned.
+            # Facts use entity_key="share_class:{fund_name}:{sc_name}",
+            # so the entity id must match: "{fund_name}:{sc_name}".
+            scoped_name = f"{fund_name}:{sc_name}"
             consolidator.resolve_entity(
                 entity_type="share_class",
-                name=sc_name,
+                name=scoped_name,
                 confidence=0.8,
-                properties={"fund": fund_name},
+                properties={"fund": fund_name, "class_name": sc_name},
             )
 
             for field in share_class_fields:
                 value = sc.get(field)
                 if value and isinstance(value, dict) and value.get("value") and not value.get("not_found_reason"):
                     await consolidator.add_fact(
-                        entity_key=f"share_class:{sc_name}",
+                        entity_key=f"share_class:{fund_name}:{sc_name}",
                         field_name=field,
                         value=value.get("value"),
                         source_page=value.get("source_page"),

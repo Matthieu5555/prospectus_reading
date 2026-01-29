@@ -32,6 +32,8 @@ from extractor.core.config import LLMConfig
 from extractor.core.cost_tracker import CostTracker
 from extractor.core.llm_router import router
 
+logger = logging.getLogger(__name__)
+
 # Suppress LiteLLM debug noise (done once at module load)
 logging.getLogger("litellm").setLevel(logging.ERROR)
 logging.getLogger("httpx").setLevel(logging.ERROR)
@@ -260,7 +262,12 @@ class LLMClient:
             self.cost_tracker.record(model, response.usage, agent=agent)
 
         raw_content = response.choices[0].message.content
-        content = json.loads(raw_content)
+        try:
+            content = json.loads(raw_content)
+        except json.JSONDecodeError:
+            from json_repair import repair_json
+            logger.warning("JSON parse failed, attempting repair")
+            content = repair_json(raw_content, return_objects=True)
 
         return LLMResponse(
             content=content,

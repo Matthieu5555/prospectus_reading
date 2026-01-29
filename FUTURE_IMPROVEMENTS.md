@@ -2,43 +2,25 @@
 
 Known issues and optimizations that would make the pipeline faster, cheaper, or more accurate.
 
-## Conflict detection compares provenance dicts instead of values
+---
 
-**The problem**: The knowledge consolidator compares entire provenance dicts rather than extracting values first. This causes two issues:
+## FIXED: Conflict detection compares provenance dicts instead of values
 
-1. **Identical values trigger conflicts**: When two extractions find `management_fee: 0.60%`, but with different source pages or quotes, the system sees them as different and triggers conflict resolution:
-   ```
-   Conflict resolved for share_class:C.management_fee: '0.60%' vs '0.60%' → kept '0.60%' (llm_verified)
-   ```
-   This wastes an LLM call to "resolve" a non-conflict.
+**Status**: Fixed. The consolidator now uses `get_raw_value()` to extract raw values before comparison (line 183 of `knowledge_consolidator.py`). Identical values with different provenance are silently merged. Conflict log messages show raw values, not full dicts.
 
-2. **Unreadable logs**: When values ARE different, the logs dump full provenance dicts:
-   ```
-   Conflict resolved for share_class:I2.exit_fee: '{'value': '0.40%', 'source_page': 20, ...}' vs '{'value': '0.40%', ...}'
-   ```
-   Instead of the readable: `'0.40%' vs '0.40%'`
+## FIXED: Cost tracking shows $0.0000 despite millions of tokens
 
-**Why it matters**:
-1. **Wasted API cost**: Resolving `'0.60%' vs '0.60%'` burns an LLM call for nothing.
-2. **Log noise**: Hard to spot real conflicts when identical values flood the output.
-3. **Wrong resolution strategy**: "Recency" is used for identical values, which is meaningless.
+**Status**: Fixed. Cost tracking now reports accurate per-agent costs (e.g., `$4.1517` total for a 757-page BlackRock prospectus run).
 
-**The fix**: In `knowledge_consolidator.py`, extract raw values before comparison:
-```python
-# Before
-if new_value != existing_value:
-    # trigger conflict resolution
+## FIXED: Share class entity keys need fund scoping
 
-# After
-new_raw = get_raw_value(new_value)
-existing_raw = get_raw_value(existing_value)
-if new_raw != existing_raw:
-    # trigger conflict resolution
-```
+**Status**: Fixed. Entity registration in `_record_extraction_facts` (`extraction_phase.py:869`) now uses `f"{fund_name}:{sc_name}"` as the entity name, producing key `share_class:{fund_name}:{sc_name}` that matches the fact entity keys. This eliminates orphaned facts caused by entity key mismatches and prevents spurious cross-fund conflicts for share classes with the same letter (e.g., Class A in different funds).
 
-Also fix the logging to show just values, not full dicts.
+## FIXED: Planning prompt exceeds model context window on large documents
 
-**Estimated scope**: ~1 hour. Localized to `knowledge_consolidator.py`.
+**Status**: Fixed. The planner now compresses exploration notes before sending to the LLM (`_compress_exploration_notes` in `planner_agent.py`). For a 757-page document with 76 explorers, the original prompt was ~175k tokens (vs gpt-4o's 128k limit). The compressed format strips verbose fields (observation text, cross-reference descriptions, page content descriptions) and uses compact JSON separators, reducing payload by ~60-70%. The planner's error-recovery path (line 116) already handled the overflow by falling back to a minimal plan, but the compressed prompt avoids the error entirely.
+
+---
 
 ## Per-fund table count is always zero despite tables existing
 
@@ -89,60 +71,6 @@ At 64k+ characters and 1800 lines, this response was massive - likely the LLM tr
 4. **Streaming validation**: Parse JSON as it streams, catch errors earlier
 
 **Estimated scope**: 2-4 hours depending on approach. JSON repair is quick; chunked extraction is more involved.
-
-## Cost tracking shows $0.0000 despite millions of tokens
-
-**The problem**: The cost summary reports zero cost even with substantial token usage:
-```
-Total tokens: 2,607,331
-  - Prompt: 2,151,041
-  - Completion: 456,290
-Total cost: $0.0000
-
-By agent:
-  conflict_resolver: 147 calls, 210,626 tokens, $0.0000
-  extractor: 71 calls, 639,000 tokens, $0.0000
-  ...
-```
-
-2.6 million tokens at GPT-4o-mini rates (~$0.15/1M input, ~$0.60/1M output) should be roughly $0.60. At GPT-4o rates it would be significantly more.
-
-**Why it matters**:
-1. **No cost visibility**: Can't evaluate whether optimizations (fewer conflict resolution calls, smaller chunks) actually save money.
-2. **Budget planning impossible**: Can't estimate cost for batch processing multiple prospectuses.
-3. **Model comparison blocked**: Can't compare cost/quality tradeoffs between models.
-
-**Investigation needed**: Check `cost_tracker.py` for:
-- Whether pricing tables are populated for the models being used
-- Whether OpenRouter returns cost info differently than direct OpenAI
-- Whether the cost calculation is happening but not being summed correctly
-
-**Estimated scope**: ~1-2 hours. Likely a missing price lookup or OpenRouter-specific response parsing issue.
-
-## Share class entity keys need fund scoping
-
-**The problem**: Share class entity keys are currently just `share_class:{class_name}`, like `share_class:C` or `share_class:A`. But share class names are generic letters that repeat across every fund. When Fund 1 extracts "Class C with currency USD" and Fund 2 extracts "Class C with currency EUR", the knowledge consolidator sees these as conflicting facts about the same entity and triggers LLM-based conflict resolution.
-
-You can see this in extraction logs:
-```
-Conflict resolved for share_class:C.currency: 'USD' vs 'EUR' → kept 'USD' (llm_verified)
-Conflict resolved for share_class:A.currency: 'EUR' vs 'USD' → kept 'EUR' (llm_verified)
-```
-
-These aren't conflicts at all - they're different share classes that happen to share a letter. The system is burning LLM calls verifying "conflicts" that don't exist.
-
-**Why it matters**:
-1. **Wasted API cost**: Each "conflict" triggers an LLM verification call. A 24-fund prospectus with 7 share classes each could generate 100+ spurious conflict checks.
-2. **Potential for wrong resolutions**: If the LLM picks the wrong value during conflict resolution, you get silent data corruption. Class C of Fund X gets Fund Y's currency.
-3. **Noisy logs**: Hard to spot real conflicts when they're buried in false positives.
-
-**The fix**: Scope entity keys to their parent fund. Change `share_class:{class_name}` to `share_class:{fund_name}:{class_name}`.
-
-The relevant code is in `extraction_phase.py` around the `_record_extraction_facts` method and anywhere else that constructs share class entity keys. Grep for `share_class:` to find all the places.
-
-This is a straightforward change but touches multiple files, so it needs careful testing. The entity key format is also used in graph queries and the visualizer, so those need updating too.
-
-**Estimated scope**: ~2 hours. Mechanical find-and-replace plus test updates.
 
 ## Constraint extraction could use the skeleton more aggressively
 

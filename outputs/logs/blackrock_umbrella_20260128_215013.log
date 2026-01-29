@@ -1,0 +1,288 @@
+2026-01-28 21:50:13.701 [INFO] [21:50:13] Starting pipeline: blackrock_umbrella.pdf
+2026-01-28 21:50:13.701 [INFO] 
+2026-01-28 21:50:13.702 [INFO] SKELETON (1 items)
+2026-01-28 21:50:13.702 [INFO]   [Skeleton] Found native TOC with 32 entries
+2026-01-28 21:50:13.702 [INFO]   [Skeleton] Built skeleton with 32 sections
+2026-01-28 21:50:13.702 [INFO]   Done: 32 sections from native TOC | [0.0s]
+2026-01-28 21:50:13.702 [INFO] 
+2026-01-28 21:50:13.702 [INFO] TABLESCAN (757 items)
+2026-01-28 21:50:13.722 [DEBU] [21:50:13] [1/757] (0%) page 1
+2026-01-28 21:50:17.983 [DEBU] [21:50:17] [51/757] (7%) page 51
+2026-01-28 21:50:24.792 [DEBU] [21:50:24] [101/757] (13%) page 101
+2026-01-28 21:50:31.889 [DEBU] [21:50:31] [151/757] (20%) page 151
+2026-01-28 21:50:39.795 [DEBU] [21:50:39] [201/757] (27%) page 201
+2026-01-28 21:51:01.915 [DEBU] [21:51:01] [251/757] (33%) page 251
+2026-01-28 21:51:06.972 [DEBU] [21:51:06] [301/757] (40%) page 301
+2026-01-28 21:51:11.981 [DEBU] [21:51:11] [351/757] (46%) page 351
+2026-01-28 21:51:16.393 [DEBU] [21:51:16] [401/757] (53%) page 401
+2026-01-28 21:51:21.474 [DEBU] [21:51:21] [451/757] (60%) page 451
+2026-01-28 21:51:26.161 [DEBU] [21:51:26] [501/757] (66%) page 501
+2026-01-28 21:51:30.780 [DEBU] [21:51:30] [551/757] (73%) page 551
+2026-01-28 21:51:35.337 [DEBU] [21:51:35] [601/757] (79%) page 601
+2026-01-28 21:51:40.131 [DEBU] [21:51:40] [651/757] (86%) page 651
+2026-01-28 21:51:44.790 [DEBU] [21:51:44] [701/757] (93%) page 701
+2026-01-28 21:51:49.674 [DEBU] [21:51:49] [751/757] (99%) page 751
+2026-01-28 21:51:50.047 [INFO]   [TableScan] Found 27 tables on 757 pages
+2026-01-28 21:51:50.047 [INFO]   [ExternalRefScan] Scanning 757 pages for external references
+2026-01-28 21:51:50.079 [INFO]   [ExternalRefScan] Text proximity: ongoing_charges -> Upon Request (page 15)
+2026-01-28 21:51:50.099 [INFO]   [ExternalRefScan] Detected 1 external field(s): ['ongoing_charges']
+2026-01-28 21:51:50.099 [INFO]   [ExternalRefScan]   Table detection: 0, Text proximity: 1
+2026-01-28 21:51:50.099 [INFO]   Done: 1 refs, 1 fields external | [96.4s]
+2026-01-28 21:51:50.099 [INFO]   [Exploration] Native TOC: 32 entries (used for cross-ref context)
+2026-01-28 21:51:50.099 [INFO]   [Exploration] Adaptive chunking: reduced from 30 to 10 pages for 757-page document
+2026-01-28 21:51:50.099 [INFO]   [Exploration] Exploring 757 pages in 76 chunks of 10 pages
+2026-01-28 21:51:50.099 [INFO] 
+2026-01-28 21:51:50.099 [INFO] EXPLORATION (76 items, gpt-4o)
+2026-01-28 21:52:03.409 [INFO]   [1/76] pages 41-50 (13.3s)
+2026-01-28 21:52:34.087 [INFO]   [2/76] pages 11-20 (44.0s)
+2026-01-28 21:53:08.824 [INFO]   [3/76] pages 61-70 (78.7s)
+2026-01-28 21:53:10.929 [INFO]   [4/76] pages 1-10 (80.8s)
+2026-01-28 21:53:33.959 [INFO]   [5/76] pages 31-40 (103.9s)
+2026-01-28 21:53:53.286 [INFO]   [6/76] pages 71-80 (123.2s)
+2026-01-28 21:53:53.355 [INFO]   [7/76] pages 81-90 (123.3s)
+2026-01-28 21:53:59.075 [INFO]   [8/76] pages 51-60 (129.0s)
+2026-01-28 21:54:03.914 [INFO]   [9/76] pages 91-100 (133.8s)
+2026-01-28 21:54:32.219 [INFO]   [10/76] pages 101-110 (162.1s)
+2026-01-28 21:54:39.709 [INFO]   [11/76] pages 121-130 (169.6s)
+2026-01-28 21:54:51.662 [INFO]   [12/76] pages 131-140 (181.6s)
+2026-01-28 21:54:54.891 [INFO]   [13/76] pages 111-120 (184.8s)
+2026-01-28 21:55:05.177 [INFO]   [14/76] pages 151-160 (195.1s)
+2026-01-28 21:55:19.026 [INFO]   [15/76] pages 161-170 (208.9s)
+2026-01-28 21:55:19.088 [INFO]   [16/76] pages 181-190 (209.0s)
+2026-01-28 21:55:20.624 [INFO]   [17/76] pages 141-150 (210.5s)
+2026-01-28 21:55:22.462 [INFO]   [18/76] pages 171-180 (212.4s)
+2026-01-28 21:55:29.816 [INFO]   [19/76] pages 191-200 (219.7s)
+2026-01-28 21:55:44.926 [INFO]   [20/76] pages 21-30 (234.8s)
+2026-01-28 21:56:01.270 [INFO]   [21/76] pages 241-250 (251.2s)
+2026-01-28 21:56:02.344 [INFO]   [22/76] pages 201-210 (252.2s)
+2026-01-28 21:56:18.034 [INFO]   [23/76] pages 251-260 (267.9s)
+2026-01-28 21:56:20.874 [INFO]   [24/76] pages 261-270 (270.8s)
+2026-01-28 21:56:21.176 [INFO]   [25/76] pages 211-220 (271.1s)
+2026-01-28 21:56:35.801 [INFO]   [26/76] pages 271-280 (285.7s)
+2026-01-28 21:56:40.194 [INFO]   [27/76] pages 291-300 (290.1s)
+2026-01-28 21:56:46.401 [INFO]   [28/76] pages 281-290 (296.3s)
+2026-01-28 21:56:47.324 [INFO]   [29/76] pages 231-240 (297.2s)
+2026-01-28 21:56:53.866 [INFO]   [30/76] pages 301-310 (303.8s)
+2026-01-28 21:56:59.485 [INFO]   [31/76] pages 221-230 (309.4s)
+2026-01-28 21:57:02.589 [INFO]   [32/76] pages 311-320 (312.5s)
+2026-01-28 21:57:10.381 [INFO]   [33/76] pages 331-340 (320.3s)
+2026-01-28 21:57:11.140 [INFO]   [34/76] pages 321-330 (321.0s)
+2026-01-28 21:57:14.126 [INFO]   [35/76] pages 341-350 (324.0s)
+2026-01-28 21:57:24.739 [INFO]   [36/76] pages 361-370 (334.6s)
+2026-01-28 21:57:26.345 [INFO]   [37/76] pages 381-390 (336.2s)
+2026-01-28 21:57:27.793 [INFO]   [38/76] pages 371-380 (337.7s)
+2026-01-28 21:57:28.393 [INFO]   [39/76] pages 351-360 (338.3s)
+2026-01-28 21:57:32.804 [INFO]   [40/76] pages 391-400 (342.7s)
+2026-01-28 21:57:39.955 [INFO]   [41/76] pages 411-420 (349.9s)
+2026-01-28 21:57:41.442 [INFO]   [42/76] pages 401-410 (351.3s)
+2026-01-28 21:57:43.469 [INFO]   [43/76] pages 431-440 (353.4s)
+2026-01-28 21:57:43.575 [INFO]   [44/76] pages 421-430 (353.5s)
+2026-01-28 21:57:54.786 [INFO]   [45/76] pages 441-450 (364.7s)
+2026-01-28 21:57:55.169 [INFO]   [46/76] pages 451-460 (365.1s)
+2026-01-28 21:58:00.356 [INFO]   [47/76] pages 471-480 (370.3s)
+2026-01-28 21:58:00.601 [INFO]   [48/76] pages 481-490 (370.5s)
+2026-01-28 21:58:06.822 [INFO]   [49/76] pages 461-470 (376.7s)
+2026-01-28 21:58:09.624 [INFO]   [50/76] pages 491-500 (379.5s)
+2026-01-28 21:58:14.720 [INFO]   [51/76] pages 501-510 (384.6s)
+2026-01-28 21:58:20.110 [INFO]   [52/76] pages 521-530 (390.0s)
+2026-01-28 21:58:20.150 [INFO]   [53/76] pages 511-520 (390.1s)
+2026-01-28 21:58:28.631 [INFO]   [54/76] pages 541-550 (398.5s)
+2026-01-28 21:58:28.686 [INFO]   [55/76] pages 531-540 (398.6s)
+2026-01-28 21:58:32.824 [INFO]   [56/76] pages 571-580 (402.7s)
+2026-01-28 21:58:34.323 [INFO]   [57/76] pages 551-560 (404.2s)
+2026-01-28 21:58:37.459 [INFO]   [58/76] pages 561-570 (407.4s)
+2026-01-28 21:58:41.469 [INFO]   [59/76] pages 591-600 (411.4s)
+2026-01-28 21:58:46.420 [INFO]   [60/76] pages 581-590 (416.3s)
+2026-01-28 21:58:50.076 [INFO]   [61/76] pages 601-610 (420.0s)
+2026-01-28 21:58:56.009 [INFO]   [62/76] pages 611-620 (425.9s)
+2026-01-28 21:58:58.717 [INFO]   [63/76] pages 621-630 (428.6s)
+2026-01-28 21:59:00.068 [INFO]   [64/76] pages 631-640 (430.0s)
+2026-01-28 21:59:03.766 [INFO]   [65/76] pages 641-650 (433.7s)
+2026-01-28 21:59:10.750 [INFO]   [66/76] pages 651-660 (440.7s)
+2026-01-28 21:59:12.540 [INFO]   [67/76] pages 661-670 (442.4s)
+2026-01-28 21:59:16.606 [INFO]   [68/76] pages 681-690 (446.5s)
+2026-01-28 21:59:26.546 [INFO]   [69/76] pages 691-700 (456.4s)
+2026-01-28 21:59:27.900 [INFO]   [70/76] pages 671-680 (457.8s)
+2026-01-28 21:59:29.317 [INFO]   [71/76] pages 701-710 (459.2s)
+2026-01-28 21:59:37.880 [INFO]   [72/76] pages 711-720 (467.8s)
+2026-01-28 21:59:41.723 [INFO]   [73/76] pages 721-730 (471.6s)
+2026-01-28 21:59:46.969 [INFO]   [74/76] pages 751-757 (476.9s)
+2026-01-28 21:59:46.973 [INFO]   [75/76] pages 731-740 (476.9s)
+2026-01-28 21:59:47.258 [INFO]   [76/76] pages 741-750 (477.2s)
+2026-01-28 21:59:47.263 [INFO]   [Exploration] Cross-references: resolved 10/129 internal refs
+2026-01-28 21:59:47.283 [INFO]   [Exploration] Knowledge graph populated: 508 findings, 169 external refs, inventory: 62 present, 24 external
+2026-01-28 21:59:47.283 [INFO]   [Exploration] KG-RAG graph: 167 entities, 1457 relations
+2026-01-28 21:59:47.283 [INFO]   Done: 76 explorers completed | funds_found=1012, tables_found=16, failed=0, toc_source=native | [477.2s]
+2026-01-28 21:59:47.283 [INFO] 
+2026-01-28 21:59:47.283 [INFO] ENTITYRESOLUTION (1 items, gpt-4o-mini)
+2026-01-28 21:59:47.284 [INFO]   [EntityResolution] Extracted 1012 fund mentions from exploration
+2026-01-28 21:59:47.284 [INFO]   [EntityResolution] No funds in TOC, falling back to LLM deduplication
+2026-01-28 21:59:47.284 [INFO]   [EntityResolution] Deduplicating 153 unique fund names with LLM...
+2026-01-28 22:00:16.318 [INFO]   [EntityResolution] LLM identified 16 canonical funds, merged 18 duplicates
+2026-01-28 22:00:16.318 [INFO]   [EntityResolution] Formed 16 clusters from 1012 mentions
+2026-01-28 22:00:16.326 [DEBU] Entity merged: 'Asia Pacific Bond Fund' → 'Asia Pacific Bond Fund'
+2026-01-28 22:00:16.334 [DEBU] Entity merged: 'Brown To Green Materials Fund' → 'Brown to Green Materials Fund'
+2026-01-28 22:00:16.342 [DEBU] Entity merged: 'Emerging Markets Corporate Bond Advanced Fund' → 'Emerging Markets Corporate Bond Advanced Fund'
+2026-01-28 22:00:16.345 [DEBU] Entity merged: 'Euro Bond Fund' → 'Euro Bond Fund'
+2026-01-28 22:00:16.349 [DEBU] Entity merged: 'Euro Corporate Bond Fund' → 'Euro Corporate Bond Fund'
+2026-01-28 22:00:16.354 [DEBU] Entity merged: 'Euro Income Fixed Maturity Bond Fund 2029' → 'Euro Income Fixed Maturity Bond Fund 2029'
+2026-01-28 22:00:16.357 [DEBU] Entity merged: 'European Fund' → 'European Fund'
+2026-01-28 22:00:16.362 [DEBU] Entity merged: 'European Special Situations Fund' → 'European Special Situations Fund'
+2026-01-28 22:00:16.364 [DEBU] Entity merged: 'FinTech Fund' → 'FinTech Fund'
+2026-01-28 22:00:16.367 [DEBU] Entity merged: 'Global Equity Income Fund' → 'Global Equity Income Fund'
+2026-01-28 22:00:16.371 [DEBU] Entity merged: 'Next Generation Health Care Fund' → 'Next Generation Health Care Fund'
+2026-01-28 22:00:16.376 [DEBU] Entity merged: 'Next Generation Technology Fund' → 'Next Generation Technology Fund'
+2026-01-28 22:00:16.380 [DEBU] Entity merged: 'Swiss Small & MidCap Opportunities Fund' → 'Swiss Small & MidCap Opportunities Fund'
+2026-01-28 22:00:16.385 [DEBU] Entity merged: 'Systematic China A-Share Opportunities Fund' → 'Systematic China A-Share Opportunities Fund'
+2026-01-28 22:00:16.389 [DEBU] Entity merged: 'World Health Science Fund' → 'World Health Science Fund'
+2026-01-28 22:00:16.391 [DEBU] Entity merged: 'World Technology Fund' → 'World Technology Fund'
+2026-01-28 22:00:16.391 [INFO]   Done: 16 canonical funds | mentions=1012, clusters=16, merged=16, filtered=0 | [29.1s]
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 1: Asia Pacific Bond Fund (conf: 0.60) (variants: ['Asia Pacific Bond Fund', 'Asia Paciﬁc Bond Fund'])
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 2: Brown To Green Materials Fund (conf: 0.60) (variants: ['Brown to Green Materials Fund', 'Brown To Green Materials Fund'])
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 3: Emerging Markets Corporate Bond Advanced Fund (conf: 0.60) (variants: ['Emerging Markets Corporate Bond Fund', 'Emerging Markets Corporate Bond Advanced Fund', 'Emerging Markets Corporate Advanced Bond Fund'])
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 4: Euro Bond Fund (conf: 0.60) (variants: ['Euro Bond Fund', 'Euro %ond )und'])
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 5: Euro Corporate Bond Fund (conf: 0.60) (variants: ['Euro Corporate Bond Fund', 'Euro &orporate %ond Fund'])
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 6: Euro Income Fixed Maturity Bond Fund 2029 (conf: 0.60) (variants: ['Euro Income Fixed Maturity Bond Fund 2029', 'Euro Income Fixed Maturity Bond Fund 2030', 'Euro Income Fixed Maturity %ond Fund 2029'])
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 7: European Fund (conf: 0.60) (variants: ['European Fund', 'European )und'])
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 8: European Special Situations Fund (conf: 0.60)
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 9: FinTech Fund (conf: 0.60) (variants: ['FinTech Fund', 'FinT ech Fund'])
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   Fund 10: Global Equity Income Fund (conf: 0.60) (variants: ['Global Equity Income Fund', 'Global Equity income Fund'])
+2026-01-28 22:00:16.391 [INFO]   [EntityResolution]   ... and 6 more funds
+2026-01-28 22:00:16.391 [INFO] 
+2026-01-28 22:00:16.391 [INFO] LOGIC (1 items, aggregation (no LLM))
+2026-01-28 22:00:16.391 [INFO]   [Logic] Aggregating 76 exploration reports (no LLM call)
+2026-01-28 22:00:16.392 [INFO]   [Logic] ISIN strategy: per_fund_inline
+2026-01-28 22:00:16.392 [INFO]   [Logic] Fee strategy: external
+2026-01-28 22:00:16.392 [INFO]   [Logic] Note: ISINs appear inline within fund sections
+2026-01-28 22:00:16.392 [INFO]   [Logic] Note: Fees are documented in Appendix E
+2026-01-28 22:00:16.392 [INFO]   [Logic] Note: External references: ongoing_charges, fund information, UK Reporting Fund status, sustainable_investments_criteria, emea_baseline_screens_criteria, KIDs, TRS, sustainability_criteria, methodology, performance, esg_policy, baseline_screens, product_specific_information, emea_baseline_screens, sustainability_indicators, sustainability_methodology, sustainable_investment_methodology, fund_information, sustainable_investments, baseline_screens_criteria, unknown, baseline_screens_methodology, ESG criteria, sustainable_investment_criteria, fee, sustainable_investments_methodology
+2026-01-28 22:00:16.392 [INFO]   Done: isin=per_fund_inline, fee=external | cross_refs=103 | [0.0s]
+2026-01-28 22:00:16.392 [INFO] 
+2026-01-28 22:00:16.392 [INFO] PLANNING (1 items, gpt-4o)
+2026-01-28 22:00:16.392 [INFO]   [Planning] Synthesizing 76 exploration reports...
+2026-01-28 22:00:16.392 [INFO]   [Planning] Using 16 canonical funds from EntityResolution
+2026-01-28 22:00:43.073 [INFO]   [Planning] Plan created for 16 funds
+2026-01-28 22:00:43.075 [INFO]   [Planning] Updated 16 fund entities to canonical names in knowledge graph
+2026-01-28 22:00:43.075 [INFO]   Done: Unknown | funds=16, with_pages=14, broadcast_tables=0 | [26.7s]
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 1: European Fund (NO PAGES)
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 2: Asia Pacific Bond Fund (p72-72)
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 3: World Technology Fund (p750-750)
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 4: Brown To Green Materials Fund (p75-75)
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 5: Global Equity Income Fund (p122-122)
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 6: Systematic China A-Share Opportunities F (p140-140)
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 7: World Health Science Fund (NO PAGES)
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 8: Euro Bond Fund (p95-95)
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 9: Emerging Markets Corporate Bond Advanced (p54-54)
+2026-01-28 22:00:43.075 [INFO]   [Planning] Fund 10: Next Generation Health Care Fund (p135-135)
+2026-01-28 22:00:43.075 [INFO]   [Planning] ... and 6 more funds
+2026-01-28 22:00:43.076 [INFO] 
+2026-01-28 22:00:43.076 [INFO] UMBRELLA (1 items, gpt-4o)
+2026-01-28 22:00:43.076 [DEBU] Matched constraint sections: ['Investment Objectives and Policies (52-153)', 'Appendix A - Investment and Borrowing Powers and Restrictions (173-184)', 'Appendix B - Summary of Certain Provisions of the Articles and of Company Practice (185-191)', 'Appendix C - Additional Information (192-197)', 'Appendix D - Authorised Status (198-204)', 'Appendix E - Summary of Charges and Expenses (205-224)', 'Appendix F - List of Depositary Delegates (225-226)', 'Appendix G - Securities Financing Transaction Disclosures (227-232)', 'Appendix H - SFDR Pre-Contractual Disclosure (234-757)']
+2026-01-28 22:00:43.076 [WARN] Constraint sections exceed 40 pages (686), truncating to first 40
+2026-01-28 22:00:43.076 [INFO] Found 40 constraint pages from TOC: 52-91
+2026-01-28 22:00:43.076 [INFO] Umbrella page plan: UmbrellaPagePlan(source=toc, entity=20 pages, constraint=40 pages, ~45,000 tokens)
+2026-01-28 22:00:43.076 [INFO]   [Extraction] Umbrella page plan: UmbrellaPagePlan(source=toc, entity=20 pages, constraint=40 pages, ~45,000 tokens)
+2026-01-28 22:00:43.076 [INFO]   [Extraction] Pass 1: Entity info from 20 pages
+2026-01-28 22:00:43.112 [INFO]   [Extraction] Entity text: 47965 chars
+2026-01-28 22:01:47.214 [INFO]   [Extraction] Pass 2: Constraints from 40 TOC-guided pages
+2026-01-28 22:01:47.380 [INFO]   [Extraction] Constraint text: 255405 chars
+2026-01-28 22:02:29.175 [INFO]   [Extraction] Running critic verification
+2026-01-28 22:02:52.541 [INFO]   [Extraction] Critic confidence: 90%
+2026-01-28 22:02:52.542 [INFO]   Done: BlackRock Global Funds | [129.5s]
+2026-01-28 22:02:52.547 [INFO]   [Extraction] Generated 16 fund recipes
+2026-01-28 22:02:52.547 [INFO]   [Extraction] Broadcast tables to parse: ['fee']
+2026-01-28 22:02:52.547 [INFO]   [Extraction] Using pre-scanned fee: 29 rows
+2026-01-28 22:02:52.547 [INFO] 
+2026-01-28 22:02:52.547 [INFO] FUND EXTRACTION (RECIPE) (16 items, gpt-4o-mini)
+2026-01-28 22:03:49.363 [DEBU] [World Technology Fund] Extraction timings: subfund=26.5s, share_classes=0.7s, parallel_searches=29.6s, total=56.8s
+2026-01-28 22:04:45.211 [INFO]   [1/16] World Technology Fund (112.7s)
+2026-01-28 22:05:03.337 [DEBU] [Asia Pacific Bond Fund] Extraction timings: subfund=26.9s, share_classes=31.7s, parallel_searches=72.2s, total=130.8s
+2026-01-28 22:05:03.343 [DEBU] [Systematic China A-Share Opportunities Fund] Extraction timings: subfund=24.5s, share_classes=51.9s, parallel_searches=54.3s, total=130.8s
+2026-01-28 22:05:03.345 [DEBU] [Brown To Green Materials Fund] Extraction timings: subfund=24.5s, share_classes=52.0s, parallel_searches=54.3s, total=130.8s
+2026-01-28 22:05:13.646 [DEBU] [Global Equity Income Fund] Extraction timings: subfund=45.1s, share_classes=67.6s, parallel_searches=28.4s, total=141.1s
+2026-01-28 22:05:13.649 [DEBU] Column 'Fund' not found in ['Redemption Period', 'Contingent Deferred Sales Charge (% of Net Asset Value of the Shares on the date of redemption)']
+2026-01-28 22:05:13.649 [DEBU] Column 'Share Class' not found in ['Redemption Period', 'Contingent Deferred Sales Charge (% of Net Asset Value of the Shares on the date of redemption)']
+2026-01-28 22:05:13.649 [DEBU] Column 'Class' not found in ['Redemption Period', 'Contingent Deferred Sales Charge (% of Net Asset Value of the Shares on the date of redemption)']
+2026-01-28 22:05:21.213 [INFO]   [2/16] Asia Pacific Bond Fund (148.7s)
+2026-01-28 22:05:23.378 [INFO]   [3/16] Brown To Green Materials Fund (150.8s)
+2026-01-28 22:05:25.651 [INFO]   [4/16] Systematic China A-Share Oppor (153.1s)
+2026-01-28 22:05:35.886 [INFO]   [5/16] Global Equity Income Fund (163.3s)
+2026-01-28 22:06:27.454 [DEBU] [Euro Bond Fund] Extraction timings: subfund=31.0s, share_classes=34.6s, parallel_searches=18.5s, total=84.1s
+2026-01-28 22:07:39.169 [DEBU] [Emerging Markets Corporate Bond Advanced Fund] Extraction timings: subfund=34.1s, share_classes=32.4s, parallel_searches=71.5s, total=137.9s
+2026-01-28 22:07:39.176 [DEBU] [Next Generation Health Care Fund] Extraction timings: subfund=27.6s, share_classes=54.4s, parallel_searches=53.7s, total=135.8s
+2026-01-28 22:07:39.176 [DEBU] Column 'Fund' not found in ['Redemption Period', 'Contingent Deferred Sales Charge (% of Net Asset Value of the Shares on the date of redemption)']
+2026-01-28 22:07:39.176 [DEBU] Column 'Share Class' not found in ['Redemption Period', 'Contingent Deferred Sales Charge (% of Net Asset Value of the Shares on the date of redemption)']
+2026-01-28 22:07:39.176 [DEBU] Column 'Class' not found in ['Redemption Period', 'Contingent Deferred Sales Charge (% of Net Asset Value of the Shares on the date of redemption)']
+2026-01-28 22:07:39.177 [DEBU] [European Special Situations Fund] Extraction timings: subfund=24.7s, share_classes=55.1s, parallel_searches=53.8s, total=133.5s
+2026-01-28 22:07:47.810 [DEBU] [Euro Income Fixed Maturity Bond Fund 2029] Extraction timings: subfund=31.1s, share_classes=74.3s, parallel_searches=26.6s, total=131.9s
+2026-01-28 22:07:47.980 [INFO]   [6/16] Euro Bond Fund (295.4s)
+2026-01-28 22:08:03.643 [INFO]   [7/16] Emerging Markets Corporate Bon (311.1s)
+2026-01-28 22:08:14.137 [INFO]   [8/16] Next Generation Health Care Fu (321.6s)
+2026-01-28 22:08:24.386 [INFO]   [9/16] Euro Income Fixed Maturity Bon (331.8s)
+2026-01-28 22:09:10.393 [DEBU] [FinTech Fund] Extraction timings: subfund=22.8s, share_classes=0.9s, parallel_searches=32.5s, total=56.3s
+2026-01-28 22:09:28.352 [INFO]   [10/16] European Special Situations Fu (395.8s)
+2026-01-28 22:09:28.353 [DEBU] [Euro Corporate Bond Fund] Extraction timings: subfund=30.6s, share_classes=37.0s, parallel_searches=32.8s, total=100.4s
+2026-01-28 22:09:29.101 [INFO]   [11/16] FinTech Fund (396.6s)
+2026-01-28 22:09:35.387 [DEBU] [Swiss Small & MidCap Opportunities Fund] Extraction timings: subfund=28.3s, share_classes=38.5s, parallel_searches=24.9s, total=91.7s
+2026-01-28 22:10:06.222 [INFO]   [12/16] Euro Corporate Bond Fund (433.7s)
+2026-01-28 22:10:15.639 [INFO]   [13/16] Swiss Small & MidCap Opportuni (443.1s)
+2026-01-28 22:10:19.431 [DEBU] [Next Generation Technology Fund] Extraction timings: subfund=31.2s, share_classes=52.8s, parallel_searches=31.1s, total=115.0s
+2026-01-28 22:12:30.292 [INFO]   [14/16] Next Generation Technology Fun (577.7s)
+2026-01-28 22:12:30.293 [INFO]   Done: 16 funds | failed=0 | [577.7s]
+2026-01-28 22:12:30.293 [INFO]   [Extraction] KG-RAG graph after extraction: 90 facts recorded
+2026-01-28 22:12:30.294 [WARN] [22:12:30] WARN: [Extraction] RECONCILIATION ISSUE: 70 orphaned facts (entity not found)
+2026-01-28 22:12:30.294 [DEBU] [22:12:30] [Extraction] Reconciliation warning: 126 funds have no extracted facts: ['AI Innovation Fund', 'Asian Dragon Fund', 'Asian Growth Leaders Fund', 'Asian High Yield Bond Fund', 'Asian Multi-Asset Income Fund']
+2026-01-28 22:12:30.295 [INFO] 
+2026-01-28 22:12:30.295 [INFO] FAILURERECOVERY (2 items)
+2026-01-28 22:12:30.295 [INFO]   [FailureRecovery] Found 2 fields needing resolution
+2026-01-28 22:12:30.295 [INFO]   [FailureRecovery] Queuing 2 isin fields for resolution
+2026-01-28 22:12:30.295 [INFO]   [FailureRecovery] Running 2 resolver tasks in parallel
+2026-01-28 22:12:52.057 [DEBU] [22:12:52] [1/2] (50%) resolving
+2026-01-28 22:12:52.057 [DEBU] [22:12:52] [2/2] (100%) resolving
+2026-01-28 22:12:52.057 [INFO]   Done: 0 resolved | upgraded=2, still_failed=0 | [21.8s]
+2026-01-28 22:12:52.057 [INFO] 
+2026-01-28 22:12:52.057 [INFO] ASSEMBLY (3 items)
+2026-01-28 22:12:52.057 [INFO]   [Assembly] NOT_FOUND counts: {'investment_restrictions': 2, 'leverage_policy': 13, 'derivatives_usage': 6}
+2026-01-28 22:12:52.057 [INFO]   [Assembly] Searching for umbrella-level: ['leverage_policy']
+2026-01-28 22:13:11.595 [INFO]   [Assembly] Filled 21 fields from umbrella constraints
+2026-01-28 22:13:11.595 [DEBU] [22:13:11] [1/3] (33%) gaps filled
+2026-01-28 22:13:11.605 [DEBU] [22:13:11] [2/3] (67%) graph built
+2026-01-28 22:13:11.606 [DEBU] [22:13:11] [3/3] (100%) stats computed
+2026-01-28 22:13:11.606 [INFO]   Done: 16 sub-funds, 12 share classes | values_tracked=911, high_confidence=640, not_found=228, actionable=4 | [19.5s]
+2026-01-28 22:13:11.607 [WARN] [22:13:11] WARN: [Assembly] Reconciliation found 2 issue(s)
+2026-01-28 22:13:11.607 [WARN] [22:13:11] WARN: [Assembly]   - FUNDS_WITHOUT_SHARE_CLASSES: 4 funds have 0 share classes: [ExtractedValue(value='European Fund', source_page=None, source_quote=None, rationale='Fund name from recipe (no dedicated pages)', confidence=1.0, not_found_reason=None, external_reference=None, is_discovered=False, extraction_pass=1, source_type=None), ExtractedValue(value='World Technology Fund', source_page=750, source_quote='Product name: World Technology )und', rationale='Extracted from the product name section of the document.', confidence=0.9, not_found_reason=None, external_reference=None, is_discovered=False, extraction_pass=1, source_type=None), ExtractedValue(value='World Health Science Fund', source_page=None, source_quote=None, rationale='Fund name from recipe (no dedicated pages)', confidence=1.0, not_found_reason=None, external_reference=None, is_discovered=False, extraction_pass=1, source_type=None)]...
+2026-01-28 22:13:11.607 [WARN] [22:13:11] WARN: [Assembly]   - MISSING_ISINS: 9/12 share classes (75%) have no ISIN: ['value=\'Asia Pacific Bond Fund\' source_page=72 source_quote=\'The Fund may use derivatives for investment purposes and for the purposes of efficient portfolio management.\' rationale="Extracted from the section discussing the fund\'s investment strategy." confidence=1.0 not_found_reason=None external_reference=None is_discovered=False extraction_pass=1 source_type=None/value=\'A (acc) EUR\' source_page=72 source_quote=\'Share Class A (acc) EUR\' rationale=\'Share class identifier from the document.\' confidence=1.0 not_found_reason=None external_reference=None is_discovered=False extraction_pass=1 source_type=None', "value='Brown To Green Materials Fund' source_page=75 source_quote='Brown To Green Materials Fund' rationale='Extracted from the fund name as found in the document.' confidence=1.0 not_found_reason=None external_reference=None is_discovered=False extraction_pass=1 source_type=None/value='A (acc) EUR' source_page=75 source_quote='Share Class A (acc) EUR' rationale='Share class identifier from table header' confidence=1.0 not_found_reason=None external_reference=None is_discovered=False extraction_pass=1 source_type=None", "value='Global Equity Income Fund' source_page=122 source_quote='The Global Equity Income Fund seeks an above average income from its equity investments without sacrificing long term capital growth in a manner consistent with the principles of environmental, social and governance (“ESG”) investing.' rationale='Extracted from the fund description section.' confidence=1.0 not_found_reason=None external_reference=None is_discovered=False extraction_pass=1 source_type=None/value='Unknown' source_page=None source_quote=None rationale=None confidence=0.5 not_found_reason=None external_reference=None is_discovered=False extraction_pass=1 source_type=None"]...
+2026-01-28 22:13:11.607 [INFO] 
+2026-01-28 22:13:11.607 [INFO] SUMMARY
+  explorers: 76
+  funds_planned: 16
+  funds_extracted: 16
+  broadcast_tables: 1
+  critic_verifications: 27
+  average_confidence: 0.7973
+  table_scan:
+    tables_found: 27
+    pages_with_tables: 757
+  external_refs:
+    refs_found: 1
+    fields_external: {'ongoing_charges': 'Upon Request'}
+  entity_resolution:
+    mentions_found: 1012
+    canonical_funds: 16
+    duplicates_merged: 16
+    low_confidence_filtered: 0
+  resolver:
+    fields_needing_resolution: 2
+    resolved: 0
+    upgraded_to_typed: 2
+    still_failed: 0
+  errors:
+    total_errors: 0
+    total_warnings: 0
+    failed_entities: 0
+    errors_by_category: {}
+2026-01-28 22:13:11.607 [INFO] 
+==================================================
+2026-01-28 22:13:11.607 [INFO] Pipeline COMPLETE [22m 58s]
+2026-01-28 22:13:11.607 [INFO] ==================================================
+2026-01-28 22:13:11.607 [INFO] Log: outputs/logs/blackrock_umbrella_20260128_215013.log
